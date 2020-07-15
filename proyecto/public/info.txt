@@ -1,0 +1,2 @@
+Carpeta destinada para las hojas de estilos, Archivos JavaScript, Imagenes, Fonts
+Librerias JS, plugins
