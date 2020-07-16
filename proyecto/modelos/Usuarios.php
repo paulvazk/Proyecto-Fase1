@@ -20,7 +20,7 @@
           }
 
 
-          //Segundo Metodo
+          //Segundo Metodo para registrar un usuario
           public function registrar_usuarios( $nombre, $apellido, $cedula, $telefono, $email, $direccion, $cargo, $usuario, $password1, $password2, $estado ){
                //se crea varaible para llamar al metodo conexion
                $conectar = parent :: conexion();
@@ -49,7 +49,7 @@
                $sql -> execute();
                
           }
-          //tercer metodo
+          //tercer metodo para editar usuario
           public function editar_usuario($id_usuario, $nombre, $apellido, $cedula, $telefono, $email, $direccion, $cargo, $usuario, $password1, $password2, $estado ){
                //se crea varaible para llamar al metodo conexion
                $conectar = parent :: conexion();
@@ -92,6 +92,24 @@
                //Ahora vamos a ejecutar la consulta
                $sql -> execute();
           }
+
+          //Cuarto Metodo muestra los datos del usuario por id
+          public function get_usuario_por_id ($id_usuario) {
+               //se crea varaible para llamar al metodo conexion
+               $conectar = parent :: conexion();
+               parent :: set_names();
+               $sql = "SELECT * FROM usuarios WHERE id_usuario = ?"; 
+               //Conexion y preparar la consulta
+               $sql = $conectar -> prepare($sql);
+               //Llamado atraves del formulario
+               $sql -> bindValue(1, $_POST["id_usuario"]);
+               //Ahora vamos a ejecutar la consulta
+               $sql -> execute();
+               //Regresando el valor
+               return $resultado=$sql->fetchAll();
+          }
+
+
      }
      
 ?>
