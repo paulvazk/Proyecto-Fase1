@@ -49,6 +49,49 @@
                $sql -> execute();
                
           }
+          //tercer metodo
+          public function editar_usuario($id_usuario, $nombre, $apellido, $cedula, $telefono, $email, $direccion, $cargo, $usuario, $password1, $password2, $estado ){
+               //se crea varaible para llamar al metodo conexion
+               $conectar = parent :: conexion();
+               parent :: set_names();
+               //Llamado de la consulta
+               $sql = "UPDATE usuarios SET 
+                    nombres = ?,
+                    apellidos = ?,
+                    cedula = ?,
+                    telefono = ?,
+                    correo = ?,
+                    direccion = ?,
+                    cargo = ?,
+                    usuario = ?,
+                    password = ?,
+                    password2= ?,
+                    estado = ?
+
+                    WHERE
+                    id_usuario = ?
+               
+               ";
+               //Conexion y preparar la consulta
+               $sql = $conectar -> prepare($sql);
+
+               //Llamado atraves del formulario
+               $sql -> bindValue(1, $_POST["nombre"]);
+               $sql -> bindValue(2, $_POST["apellido"]);
+               $sql -> bindValue(3, $_POST["cedula"]);
+               $sql -> bindValue(4, $_POST["telefono"]);
+               $sql -> bindValue(5, $_POST["email"]);
+               $sql -> bindValue(6, $_POST["direccion"]);
+               $sql -> bindValue(7, $_POST["cargo"]);
+               $sql -> bindValue(8, $_POST["usuario"]);
+               $sql -> bindValue(9, $_POST["password1"]);
+               $sql -> bindValue(10, $_POST["password2"]);
+               $sql -> bindValue(11, $_POST["estado"]);
+               $sql -> bindValue(12, $_POST["id_usuario"]);
+
+               //Ahora vamos a ejecutar la consulta
+               $sql -> execute();
+          }
      }
      
 ?>
