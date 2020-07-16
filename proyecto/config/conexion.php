@@ -17,7 +17,6 @@
                     die();
                }   
           }//Cierre de la funcion conexion
-          
           //Funcion que evita problemas con los caracteres especiales del espa;ol
           public function set_names(){
                return $this->dbh->query("SET NAMES 'utf8'");
