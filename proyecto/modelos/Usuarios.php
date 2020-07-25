@@ -151,7 +151,8 @@
                $sql -> bindValue(2,$email);
                //Ahora vamos a ejecutar la consulta
                $sql -> execute();
-               
+               //
+               return $resultado = $sql -> fetchAll();
                               
           }
 
