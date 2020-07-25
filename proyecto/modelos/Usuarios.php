@@ -117,9 +117,9 @@
                //El parametro se envia por via ajax
                if ($_POST["est"] == "0") {
                     $estado = 1;
-                    //inactivo
+                    //Activo
                } else{
-                    //activo
+                    //Inactivo
                     $estado = 0;
                }
 
