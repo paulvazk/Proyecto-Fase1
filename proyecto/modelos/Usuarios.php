@@ -108,7 +108,35 @@
                //Regresando el valor
                return $resultado=$sql->fetchAll();
           }
+          //Funcion que Editaa el estado del usario si esta activo o no
+          public function editar_estado($id_usuario, $estado){
+               //Metodo recibido por ajax
+               //se crea varaible para llamar al metodo conexion
+               $conectar = parent :: conexion();
+               parent :: set_names();
+               //El parametro se envia por via ajax
+               if ($_POST["est"] == "0") {
+                    $estado = 1;
+                    //inactivo
+               } else{
+                    //activo
+                    $estado = 0;
+               }
 
+               //Consulta sql
+               $sql = "UPDATE usuarios SET 
+               estado = ?
+               WHERE id_usuario = ? 
+               ";
+               //Conexion y preparar la consulta
+               $sql = $conectar -> prepare($sql);
+               //
+               $sql -> bindValue(1,"id_usuario");
+               $sql -> bindValue(2,"estado");
+               //Ahora vamos a ejecutar la consulta
+               $sql -> execute();
+          }
+          
 
      }
      

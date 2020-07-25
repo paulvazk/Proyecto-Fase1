@@ -21,6 +21,7 @@
           public function set_names(){
                return $this->dbh->query("SET NAMES 'utf8'");
           }
+          
           public function ruta(){
                //funcion para la rutas cy que cy
                //se llamara en otros metodos
