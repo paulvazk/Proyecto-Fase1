@@ -131,12 +131,29 @@
                //Conexion y preparar la consulta
                $sql = $conectar -> prepare($sql);
                //
-               $sql -> bindValue(1,"id_usuario");
-               $sql -> bindValue(2,"estado");
+               $sql -> bindValue(1,$id_usuario);
+               $sql -> bindValue(2,$estado);
                //Ahora vamos a ejecutar la consulta
                $sql -> execute();
           }
-          
+
+          //Funcion que valida correo y cedula del usuario
+          public function get_cedula_correo_del_usuario($cedula, $email){
+               //se crea varaible para llamar al metodo conexion
+               $conectar = parent :: conexion();
+               parent :: set_names();
+               //Preparando consulta
+               $sql = "SELECT * FROM usuarior WHERE cedula = ? OR correo = ?";
+               //Conexion y preparar la consulta
+               $sql = $conectar -> prepare($sql);
+               //
+               $sql -> bindValue(1,$cedula);
+               $sql -> bindValue(2,$email);
+               //Ahora vamos a ejecutar la consulta
+               $sql -> execute();
+               
+                              
+          }
 
      }
      
