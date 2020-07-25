@@ -11,7 +11,7 @@
                     //Se intancia una clase de Pph Data Object (PDO) y se realiza la conexion
                     return $conectar; 
                     //Se regresa la conexion
-               } catch (Execption $e) {
+               } catch (Exception $e) {
                     //EN CASO DE FALLA SE IMPRIME UN MENSAJE DE ERROR
                     print "Error: " . $e -> getMessage() . "<br/>";
                     die();
