@@ -74,6 +74,7 @@
                
                //Creando mensajes personalizadps
                if (isset($messages)) {
+                    //Mensaje de exito
                     ?>
                          <div class="alert alert-success" role="alert">
                               <button type="button" class="close" data-dismiss="alert">
