@@ -72,7 +72,22 @@
                     $errors[] = "Verifique su contraseña no coincide";
                }
                
-
+               //Creando mensajes personalizadps
+               if (isset($messages)) {
+                    ?>
+                         <div class="alert alert-success" role="alert">
+                              <button type="button" class="close" data-dismiss="alert">
+                                   &times;
+                              </button>
+                              <strong>Bien hecho</strong>
+                              <?php 
+                                   foreach($messages as $messages){
+                                        echo $messages;
+                                   }
+                              ?>
+                         </div>
+                    <?php
+               }
 
           break;
 
