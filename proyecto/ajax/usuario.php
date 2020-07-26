@@ -19,6 +19,70 @@
      $password2 = isset($_POST["password2"]);
      //Esto es  lo que se envia por parte del formulario
      $estado = isset($_POST["estado"]);
-     
+     //casos de operaciones 
+     switch ($_GET["op"]) {
+
+          case "guardaryeditar":
+               /*
+                * se verifica si existe la cedula y correo en la base de datos
+                * Si ya existe un registro con la cedula o correo 
+                * entonces no se registra el usuario
+                */
+               $datos = $usuarios -> get_cedula_correo_del_usuario($_POST(["cedula"]),$_POST(["email"]));
+               //Condionnal que sirve para verificar que coincidan las contrase;as
+               if ($password1 == $password2) {
+                    /*
+                     * Si el id no existe entonces lo registra 
+                     * Importante: Se debe de poner el $_POST si no no funciona
+                     */
+                    if (empty($_POST["id_usuario"])) {
+                         /*
+                          * En caso de que coincidan los passwords se verifica
+                          * Si existe la cedula y el correo en la base de datos 
+                          * En caso de que ya exista el registro con la cedula o el correo
+                          * No se registrara 
+                          */
+                         if (is_array($datos) == true and count($datos) == 0) {
+                              //Si no existe el usuario realizamos el registro
+                              //Creando objecto que llama al metodo regitrar usuario
+                              $usuarios -> registrar_usuarios($nombre, $apellido, $cedula, $telefono, $email, $direccion, $cargo, $usuario, $password1, $password2, $estado);
+                              //Mnadar mensaje
+                              $messages[] = "Usuario Registrado Exitosamente";
+                         }else{
+                              //En caso de que existe
+                              $messages[] = "Usuario o Cedula Ya Existe";
+
+                         }
+
+                    } //Cierre de la validacion del empty
+                    else{
+
+
+                    }
+
+
+               } else {
+                    /*
+                     * Si no coincide el password, se muestra mensaje de error
+                     */
+                    $errors[] = "Verifique su contraseña no coincide";
+               }
+               
+
+
+          break;
+
+          case "mostar":
+               
+          break;
+
+          case "activarydesactivar":
+               
+          break; 
+
+          case "listar":
+               
+          break;          
+     }
 
 ?>
