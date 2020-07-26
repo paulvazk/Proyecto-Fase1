@@ -62,7 +62,6 @@
                          //creando objeto
                          $usuarios -> editar_usuario($id_usuario, $nombre, $apellido, $cedula, $telefono, $email, $direccion, $cargo, $usuario, $password1, $password2, $estado);
                          $messages[] = "Se ha editado un Usuario Exitosamente";
- 
                     }
 
 
