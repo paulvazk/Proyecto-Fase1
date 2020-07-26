@@ -89,6 +89,22 @@
                          </div>
                     <?php
                }
+               //Mensajes de error
+               if (isset($errors)) {
+                    ?>
+                         <div class="alert alert-danger" role="alert">
+                              <button type="button" class="close" data-dismiss="alert">
+                                   &times;
+                              </button>
+                              <strong>Ocurrio algo mal</strong>
+                              <?php 
+                                   foreach($errors as $error){
+                                        echo $error;
+                                   }
+                              ?>
+                         </div>
+                    <?php                   
+               }
 
           break;
 
