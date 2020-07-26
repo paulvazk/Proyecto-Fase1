@@ -164,11 +164,7 @@
                     if (is_array($datos) == true and count($datos) > 0) {
                          //edita el estado del usuario
                          $usuarios -> editar_estado($_POST["id_usuario"], $_POST["est"]);
-
-                    } else {
-                         # code...
-                    }
-                    
+                    }           
           break; 
 
           case "listar":
