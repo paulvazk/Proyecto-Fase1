@@ -82,8 +82,8 @@
                               </button>
                               <strong>Bien hecho</strong>
                               <?php 
-                                   foreach($messages as $messages){
-                                        echo $messages;
+                                   foreach($messages as $message){
+                                        echo $message;
                                    }
                               ?>
                          </div>
