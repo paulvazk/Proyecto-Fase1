@@ -56,8 +56,13 @@
 
                     } //Cierre de la validacion del empty
                     else{
-
-
+                         /**
+                          * Si ya existe el usuario editamos al usuario
+                          */
+                         //creando objeto
+                         $usuarios -> editar_usuario($id_usuario, $nombre, $apellido, $cedula, $telefono, $email, $direccion, $cargo, $usuario, $password1, $password2, $estado);
+                         $messages[] = "Se ha editado un Usuario Exitosamente";
+ 
                     }
 
 
