@@ -168,6 +168,7 @@
           break; 
 
           case "listar":
+               //Iniciando funcion listar
                
           break;          
      }
