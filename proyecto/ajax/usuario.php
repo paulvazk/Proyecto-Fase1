@@ -108,7 +108,52 @@
           break;
 
           case "mostar":
-               
+               /*
+                * Se seleccionara el id del usuario
+                * El parametro id_usuario se envia por AJAX cuando se edita el usuario
+                */
+                $datos = $usuarios -> get_usuario_por_id($_POST["id_usuario"]);
+               //Validacion si es que existe el id_usuario
+               if (is_array($datos) == true and count($datos) > 0) {
+                    foreach ($datos as $row ) {
+
+                         $output["cedula"] = $row["cedula"];
+                         $output["nombre"] = $row["nombre"];
+                         $output["apellido"] = $row["apellido"];
+                         $output["cargo"] = $row["cargo"];
+                         $output["usuario"] = $row["usuario"];
+                         $output["password1"] = $row["password1"];
+                         $output["password2"] = $row["password2"];
+                         $output["telefono"] = $row["telefono"];
+                         $output["correo"] = $row["correo"];
+                         $output["direccion"] = $row["direccion"];
+                         $output["estado"] = $row["estado"];
+  
+                    }
+                    //regresando datos en json
+                    echo json_encode($output);
+
+               } else {
+                    //En caso de que no exista el usuario
+                    $errors[] = "El usuario no existe en los registros";
+               }
+               //Mensajes de error
+               if (isset($errors)) {
+                    ?>
+                         <div class="alert alert-danger" role="alert">
+                              <button type="button" class="close" data-dismiss="alert">
+                                   &times;
+                              </button>
+                              <strong>Ocurrio algo mal</strong>
+                              <?php 
+                                   foreach($errors as $error){
+                                        echo $error;
+                                   }
+                              ?>
+                         </div>
+                    <?php                   
+               }
+
           break;
 
           case "activarydesactivar":
