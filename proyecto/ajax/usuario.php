@@ -153,11 +153,12 @@
                          </div>
                     <?php                   
                }
-
           break;
 
           case "activarydesactivar":
-               
+               /**
+                * 
+                */
           break; 
 
           case "listar":
