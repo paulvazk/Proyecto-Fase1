@@ -105,7 +105,6 @@
                          </div>
                     <?php                   
                }
-
           break;
 
           case "mostar":
