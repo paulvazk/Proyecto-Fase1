@@ -56,7 +56,7 @@
 
                     } //Cierre de la validacion del empty
                     else{
-                         /**
+                         /*
                           * Si ya existe el usuario editamos al usuario
                           */
                          //creando objeto
