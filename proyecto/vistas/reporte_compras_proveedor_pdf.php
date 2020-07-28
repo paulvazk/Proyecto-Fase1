@@ -53,19 +53,24 @@ ob_start();
 <td width="46%" height="111">
 <table style="width: 100%; font-size: 10pt;">
 
-  <tr>
+  
+<?php
+/**
+ * <tr>
     <td><strong>DATOS DE LA EMPRESA</strong></td>
   </tr>
-
-  <tr>
+ * <tr>
     <td><strong>CEDULA EMPRESA: </strong> <?php echo $datos_empresa[0]["cedula_empresa"]; ?></td>
   </tr>
   <tr>
     <td><strong>EMPRESA: </strong> <?php echo $datos_empresa[0]["nombre_empresa"]; ?></td>
   </tr>
+ */
+?>
+  
   
   <tr>
-    <td width="43%"><strong>DATOS DEL VENDEDOR</strong></td>
+    <td width="43%"><strong>DATOS</strong></td>
   </tr>
   <tr>
     <td><strong>NOMBRE: </strong><?php echo $_SESSION["nombre"]; ?></td>

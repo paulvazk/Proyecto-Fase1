@@ -69,12 +69,13 @@
 
 	            	/*si ya existe entonces editamos el proveedor*/
 
-
-	             $clientes->editar_cliente($cedula,$nombre,$apellido,$telefono,$correo,$direccion,$estado,$id_usuario);
-
-
-	            	  $messages[]="El cliente se editó correctamente";
-
+					$datos = $clientes->get_datos_cliente($_POST["cedula"],$_POST["nombre"],$_POST["email"]);
+					if(is_array($datos)==true and count($datos)==0){
+						$clientes->editar_cliente($cedula,$nombre,$apellido,$telefono,$correo,$direccion,$estado,$id_usuario);
+						$messages[]="El cliente se editó correctamente";
+					}else{
+						$errors[]="El Cliente ya existe";
+					}
 	            	 
 	            }
 

@@ -1,45 +1,45 @@
 /*AUMENTO DE TAMANO MODAL EN PRODUCTOS  PARA PONER FORMULARIO E IMAGEN*/
-  
-     .tamanoModal{
 
-       width:70%;
-     }
+.tamanoModal {
+  width: 70%;
+}
 
+/*pone el numero y titulo en color blanco del home*/
+.panel_modulos a,
+.panel_modulos a:hover,
+.panel_modulos a:focus,
+.panel_modulos a:active {
+  color: white;
+}
 
-   /*pone el numero y titulo en color blanco del home*/
-  .panel_modulos a, .panel_modulos a:hover, .panel_modulos a:focus, .panel_modulos a:active{
+/*barra de progreso*/
+.progress-xs {
+  height: 22px;
+}
 
-   color:white;
-   
-   }
+/*tamano del porcentaje en la barra de progreso*/
+.progress-bar {
+  font-size: 100%;
+  font-weight: bold;
+}
 
+.rojo {
+  border-color: #a94442;
+}
 
-    /*barra de progreso*/
-    .progress-xs {
-    height: 22px;
-     }
-   
-   /*tamano del porcentaje en la barra de progreso*/
-   .progress-bar{
+/*oculta boton enviar si la cantidad seleccionada es mayor al stock*/
 
-      font-size:100%;
-      font-weight: bold;
-   }
+.oculta_boton {
+  display: none;
+}
+.imageBunbi {
+  height: 30px !important;
+  margin-top: auto;
+}
 
-
-
-    
-    .rojo{
-
-       border-color:#a94442;
-
-    }
-
-
-    /*oculta boton enviar si la cantidad seleccionada es mayor al stock*/
-    
-    .oculta_boton{
-
-       display:none;
-    }
-
+.main-sidebar {
+  position: fixed !important;
+}
+.quieto {
+  position: fixed !important;
+}

@@ -12,10 +12,10 @@
 
          $conectar= parent::conexion();
            
-             $sql="select * from proveedor";
+             $sql="select * from proveedor where id_usuario=?";
              
              $sql=$conectar->prepare($sql);
-
+             $sql->bindValue(1, $_SESSION['id_usuario']);
              $sql->execute();
 
              $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -32,10 +32,11 @@
    	   	  $conectar=parent::conexion();
    	   	  parent::set_names();
 
-   	   	  $sql="select * from proveedor";
+   	   	  $sql="select * from proveedor where id_usuario=?";
 
-   	   	  $sql=$conectar->prepare($sql);
-   	   	  $sql->execute();
+            $sql=$conectar->prepare($sql);
+            $sql->bindValue(1, $_SESSION['id_usuario']);
+   	   	    $sql->execute();
 
    	   	  return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
    	   }
@@ -60,7 +61,7 @@
             $sql->bindValue(4, $_POST["email"]);
             $sql->bindValue(5, $_POST["direccion"]);
             $sql->bindValue(6, $_POST["estado"]);
-            $sql->bindValue(7, $_POST["id_usuario"]);
+            $sql->bindValue(7, $_SESSION["id_usuario"]);
             $sql->execute();
       
            
@@ -74,11 +75,12 @@
             $conectar= parent::conexion();
             parent::set_names();
 
-            $sql="select * from proveedor where cedula=?";
+            $sql="select * from proveedor where cedula=? and id_usuario=?";
 
             $sql=$conectar->prepare($sql);
 
             $sql->bindValue(1, $cedula);
+            $sql->bindValue(2, $_SESSION['id_usuario']);
             $sql->execute();
             return $resultado=$sql->fetchAll();
         }
@@ -91,11 +93,12 @@
 
           //$output = array();
 
-          $sql="select * from proveedor where id_proveedor=?";
+          $sql="select * from proveedor where id_proveedor=? and id_usuario=?";
 
                 $sql=$conectar->prepare($sql);
 
                 $sql->bindValue(1, $id_proveedor);
+                $sql->bindValue(2, $_SESSION['id_usuario']);
                 $sql->execute();
 
                 return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -108,28 +111,29 @@
         /*metodo que valida si hay registros activos*/
         public function get_proveedor_por_id_estado($id_proveedor,$estado){
 
-         $conectar= parent::conexion();
+            $conectar= parent::conexion();
 
          //declaramos que el estado esté activo, igual a 1
 
-         $estado=1;
+            $estado=1;
 
           
-        $sql="select * from proveedor where id_proveedor=? and estado=?";
+           $sql="select * from proveedor where id_proveedor=? and estado=? and id_usuario=?";
 
               $sql=$conectar->prepare($sql);
 
               $sql->bindValue(1, $id_proveedor);
                $sql->bindValue(2, $estado);
+               $sql->bindValue(3, $_SESSION['id_usuario']);
               $sql->execute();
 
               return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 
 
-         }
+        }
 
 
-         public function editar_proveedor($cedula,$proveedor,$telefono,$correo,$direccion,$estado,$id_usuario){
+        public function editar_proveedor($cedula,$proveedor,$telefono,$correo,$direccion,$estado,$id_usuario){
 
         	$conectar=parent::conexion();
         	parent::set_names();
@@ -146,7 +150,7 @@
          $proveedor_detalle_compras=$proveedor->get_proveedor_por_cedula_detalle_compras($_POST["cedula_proveedor"]);
 
            //si la cedula del proveedor NO tiene registros asociados en las tablas compras y detalle_compras entonces se puede editar el proveedor completo
-        if(is_array($proveedor_compras)==true and count($proveedor_compras)==0 and is_array($proveedor_detalle_compras)==true and count($proveedor_detalle_compras)==0){
+         if(is_array($proveedor_compras)==true and count($proveedor_compras)==0 and is_array($proveedor_detalle_compras)==true and count($proveedor_detalle_compras)==0){
 
 
               $sql="update proveedor set 
@@ -159,7 +163,7 @@
                  estado=?,
                  id_usuario=?
                  where 
-                 cedula=?
+                 cedula=? and id_usuario=?
 
               ";
                 
@@ -173,8 +177,9 @@
                   $sql->bindValue(4, $_POST["email"]);
                   $sql->bindValue(5, $_POST["direccion"]);
                   $sql->bindValue(6, $_POST["estado"]);
-                  $sql->bindValue(7, $_POST["id_usuario"]);
+                  $sql->bindValue(7, $_SESSION["id_usuario"]);
                   $sql->bindValue(8, $_POST["cedula_proveedor"]);
+                  $sql->bindValue(9, $_SESSION['id_usuario']);
                   $sql->execute();
 
 
@@ -191,7 +196,7 @@
                estado=?,
                id_usuario=?
                where 
-               cedula=?
+               cedula=? and id_usuario=?
                   ";
 
                 $sql=$conectar->prepare($sql);
@@ -201,8 +206,9 @@
                 $sql->bindValue(2, $_POST["email"]);
                 $sql->bindValue(3, $_POST["direccion"]);
                 $sql->bindValue(4, $_POST["estado"]);
-                $sql->bindValue(5, $_POST["id_usuario"]);
+                $sql->bindValue(5, $_SESSION["id_usuario"]);
                 $sql->bindValue(6, $_POST["cedula_proveedor"]);
+                $sql->bindValue(7, $_SESSION['id_usuario']);
                 $sql->execute();
 
             }
@@ -216,15 +222,16 @@
 
            $conectar=parent::conexion();
 
-          $sql="select * from proveedor where cedula=? or razon_social=? or correo=?";
+          $sql="select * from proveedor where cedula=? and id_usuario=?";
 
            //echo $sql; exit();
 
            $sql=$conectar->prepare($sql);
 
             $sql->bindValue(1, $cedula);
-            $sql->bindValue(2, $proveedor);
-            $sql->bindValue(3, $correo);
+            //$sql->bindValue(2, $proveedor);
+            //$sql->bindValue(3, $correo);
+            $sql->bindValue(2, $_SESSION['id_usuario']);
             $sql->execute();
 
            //print_r($email); exit();
@@ -254,31 +261,33 @@
               
               estado=?
               where 
-              id_proveedor=?
+              id_proveedor=? and id_usuario=?
 
         	 ";
 
         	 $sql=$conectar->prepare($sql);
 
         	 $sql->bindValue(1,$estado);
-        	 $sql->bindValue(2,$id_proveedor);
+           $sql->bindValue(2,$id_proveedor);
+           $sql->bindValue(3,$_SESSION['id_usuario']);
         	 $sql->execute();
         }
 
        
-         public function eliminar_proveedor($id_proveedor){
+        public function eliminar_proveedor($id_proveedor){
 
               $conectar=parent::conexion();
 
-              $sql="delete from proveedor where id_proveedor=?";
+              $sql="delete from proveedor where id_proveedor=? and id_usuario=?";
 
               $sql=$conectar->prepare($sql);
 
               $sql->bindValue(1, $id_proveedor);
+              $sql->bindValue(2, $_SESSION['id_usuario']);
               $sql->execute();
 
               return $resultado=$sql->fetch(PDO::FETCH_ASSOC);
-      }
+        }
 
 
         public function get_proveedor_por_id_usuario($id_usuario){
@@ -296,11 +305,11 @@
             return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 
 
-      }
+        }
 
 
         //consulta si la cedula del proveedor tiene una compra asociada
-       public function get_proveedor_por_cedula_compras($cedula_proveedor){
+        public function get_proveedor_por_cedula_compras($cedula_proveedor){
 
              
              $conectar=parent::conexion();
@@ -314,21 +323,23 @@
               INNER JOIN compras c ON p.cedula=c.cedula_proveedor
 
 
-              where p.cedula=?
+              where p.cedula=? and p.id_usuario=? and c.id_usuario=?
 
               ";
 
              $sql=$conectar->prepare($sql);
              $sql->bindValue(1,$cedula_proveedor);
+             $sql->bindValue(2, $_SESSION['id_usuario']);
+             $sql->bindValue(3, $_SESSION['id_usuario']);
              $sql->execute();
 
              return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
 
-    }
+        }
 
       
       //consulta si la cedula del proveedor tiene un detalle_compra asociado
-      public function get_proveedor_por_cedula_detalle_compras($cedula_proveedor){
+       public function get_proveedor_por_cedula_detalle_compras($cedula_proveedor){
 
             $conectar=parent::conexion();
              parent::set_names();
@@ -341,11 +352,13 @@
 
 
               where p.cedula=?
-
+              and p.id_usuario=? and d.id_usuario=?
               ";
 
              $sql=$conectar->prepare($sql);
              $sql->bindValue(1,$cedula_proveedor);
+             $sql->bindValue(2,$_SESSION['id_usuario']);
+             $sql->bindValue(3,$_SESSION['id_usuario']);
              $sql->execute();
 
              return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);

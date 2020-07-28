@@ -1,9 +1,7 @@
 <?php
 
- require_once("config/conexion.php");
-
+     require_once("config/conexion.php");
      
-
      if(isset($_POST["enviar"]) and $_POST["enviar"]=="si"){
 
        require_once("modelos/Usuarios.php");
@@ -22,10 +20,11 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Proyecto</title>
+  <title>BUNBi sale</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
+  
   <link rel="stylesheet" href="public/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="public/bower_components/font-awesome/css/font-awesome.min.css">
@@ -45,11 +44,13 @@
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link rel="apple-touch-icon" href="public/images/logoBunbi.png" >
+  <link rel="icon" href="public/images/logoBunbi.png" />
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../../index2.html"><b>Compra- Venta</b></a>
+    <a href="../../index2.html"><b>BUNBi sale</b></a>
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
@@ -75,7 +76,7 @@
 
                <div class="alert alert-danger alert-dismissible">
                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                      <h4><i class="icon fa fa-ban"></i> El correo y/o password es incorrecto o no tienes permiso!</h4>
+                      <h4><i class="icon fa fa-ban"></i> El correo o contraseña es incorrecto o no tienes permiso!</h4>
                      
                 </div>
 
@@ -118,11 +119,11 @@
 
     <form action="" method="post">
       <div class="form-group has-feedback">
-        <input type="email" name="correo" id="correo" class="form-control" placeholder="Email" required="required">
+        <input type="email" name="correo" id="correo" class="form-control" placeholder="Correo eletrónico" required="required">
         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
       </div>
       <div class="form-group has-feedback">
-        <input type="password" name="password" id="password" class="form-control" placeholder="Password" required>
+        <input type="password" name="password" id="password" class="form-control" placeholder="Contraseña" required>
         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
       </div>
 

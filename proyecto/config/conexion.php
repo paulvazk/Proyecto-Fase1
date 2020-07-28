@@ -2,30 +2,32 @@
 
 
   session_start();
-
+//  require_once('../../vendor/autoload.php');
+  
+  
  class Conectar {
 
  	protected $dbh;
+	 
+	 
+ 	    protected function conexion(){
 
- 	protected function conexion(){
 
-
- 		try {
-
+ 		 try {
  			$conectar = $this->dbh = new PDO("mysql:local=localhost;dbname=dbproyecto","root","");
 		   
 		     return $conectar;
  			
- 		} catch (Exception $e) {
+ 		  } catch (Exception $e) {
 
  			print "¡Error!: " . $e->getMessage() . "<br/>";
             die();  
  			
- 		}
+ 		  }
  
 
 
-		 } //cierre de llave de la function conexion()
+	    } //cierre de llave de la function conexion()
 
 
 		 public function set_names(){
@@ -36,10 +38,8 @@
 
 		 public function ruta(){
 
-		 	return "http://localhost/proyecto/";
+		 	return "http://localhost:9090/Proyecto-Fase1/proyecto/";
 		 }
-
-
 
 		   //Función para convertir fecha del mes de numero al nombre, ejemplo de 01 a enero
 	      public static function convertir($string){

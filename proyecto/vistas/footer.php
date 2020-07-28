@@ -1,9 +1,9 @@
 
  <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 2.4.0
+      <b>Version</b> 0.1.20
     </div>
-    <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+    <strong>Copyright &copy; 2020 <a href="https://bunbi.com.mx">BUNBi</a>.</strong> All rights
     reserved.
   </footer>
 
@@ -196,9 +196,7 @@
       <!-- /.tab-pane -->
     </div>
   </aside>
-  <!-- /.control-sidebar -->
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
+
   <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->

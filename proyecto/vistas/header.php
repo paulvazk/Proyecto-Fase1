@@ -37,7 +37,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title> Sistema Compra - Venta | www.eyterhiguera.com</title>
+  <title> BUNBi sale</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -71,31 +71,29 @@
   <link rel="stylesheet" href="../public/bower_components/bootstrap-daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="../public/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
-
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
    <!--ESTILOS-->
 <link rel="stylesheet" href="../public/css/estilos.css">
-
+<link rel="apple-touch-icon" href="../public/images/logoBunbi.png" >
+  <link rel="icon" href="../public/images/logoBunbi.png" />
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="index2.html" class="logo">
+    <a href="https://platform.bunbi.com.mx/#/account" class="logo quieto" title="Panel BUNBI">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>A</b>LT</span>
+      <span class="logo-mini">
+        <img src="../public/images/logoBunbi.png" alt="logobunbi" class="imageBunbi" title="Panel BUNBI"/>
+      </span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg"><b>Compra - Venta</b></span>
+      <span class="logo-lg">
+      <img src="../public/images/logoBunbi.png" alt="logobunbi" class="imageBunbi" title="Panel BUNBI"/>
+        <b>BUNBi</b>
+      </span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
     <nav class="navbar navbar-static-top">
@@ -123,8 +121,7 @@
                  <i class="fa fa-user" aria-hidden="true"></i>
 
                 <p>
-                   <?php echo $_SESSION["nombre"]?> - Web Developer
-                  <small>Administrador desde Noviembre 2017</small>
+                   <?php echo $_SESSION["nombre"]?> </small>
                 </p>
               </li>
               <!-- Menu Body -->
@@ -144,11 +141,11 @@
               <!--</li>-->
               <!-- Menu Footer-->
               <li class="user-footer">
-                <div class="pull-left">
+               <!-- <div class="pull-left">
                   <a href="#" class="btn btn-default btn-flat" onclick="mostrar_perfil('<?php echo $_SESSION["id_usuario"]?>')"  data-toggle="modal" data-target="#perfilModal">Perfil</a>
-                </div>
+                </div>-->
                 <div class="pull-right">
-                  <a href="logout.php" class="btn btn-default btn-flat">Cerrar</a>
+                  <a href="logout.php" class="btn btn-block btn-flat btn-danger">Cerrar</a>
                 </div>
               </li>
             </ul>
@@ -374,7 +371,7 @@
      ?>
 
 
-       <?php if($_SESSION["usuarios"]==1)
+       <!-- <?php if($_SESSION["usuarios"]==1)
           {
 
             echo ' 
@@ -391,7 +388,7 @@
 
        }
 
-     ?>
+     ?>-->
 
          <!--<li class="">
           <a href="backup.php">
@@ -403,7 +400,7 @@
          
         </li>-->
 
-         <?php if($_SESSION["empresa"]==1)
+      <!--  <?php if($_SESSION["empresa"]==1)
           {
 
           echo '
@@ -418,7 +415,7 @@
 
         }
 
-     ?>
+     ?>-->
 
        
       </ul>

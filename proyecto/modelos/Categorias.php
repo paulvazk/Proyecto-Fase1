@@ -5,14 +5,12 @@
    class Categoria extends Conectar{
     
 
-        public function get_filas_categoria(){
-
+      public function get_filas_categoria(){
        $conectar= parent::conexion();
-         
-           $sql="select * from categoria";
+           $sql="select * from categoria  where id_usuario=?";
            
            $sql=$conectar->prepare($sql);
-
+           $sql->bindValue(1, $_SESSION['id_usuario']);
            $sql->execute();
 
            $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -24,21 +22,22 @@
 
        //método para seleccionar registros
 
-   	   public function get_categorias(){
+   	public function get_categorias(){
 
    	   	  $conectar=parent::conexion();
    	   	  parent::set_names();
 
-   	   	  $sql="select * from categoria";
+   	   	  $sql="select * from categoria where id_usuario=?";
 
-   	   	  $sql=$conectar->prepare($sql);
+            $sql=$conectar->prepare($sql);
+            $sql->bindValue(1, $_SESSION['id_usuario']);
    	   	  $sql->execute();
 
    	   	  return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
-   	   }
+   	}
 
    	    //método para mostrar los datos de un registro a modificar
-        public function get_categoria_por_id($id_categoria){
+      public function get_categoria_por_id($id_categoria){
 
             
             $conectar= parent::conexion();
@@ -51,12 +50,12 @@
             $sql->bindValue(1, $id_categoria);
             $sql->execute();
             return $resultado=$sql->fetchAll();
-        } 
+      } 
 
 
         //método para insertar registros
 
-        public function registrar_categoria($categoria,$estado,$id_usuario){
+      public function registrar_categoria($categoria,$estado,$id_usuario){
 
 
            $conectar= parent::conexion();
@@ -71,14 +70,14 @@
 
 		      $sql->bindValue(1,$_POST["categoria"]);
 		      $sql->bindValue(2,$_POST["estado"]);
-		      $sql->bindValue(3,$_POST["id_usuario"]);
+		      $sql->bindValue(3,$_SESSION['id_usuario']);
 		      $sql->execute();
       
           //print_r($_POST);
 
-        }
-
-        public function editar_categoria($id_categoria,$categoria,$estado,$id_usuario){
+      }
+//esta cosa queda pendiente plox
+      public function editar_categoria($id_categoria,$categoria,$estado,$id_usuario){
 
         	$conectar=parent::conexion();
         	parent::set_names();
@@ -114,7 +113,7 @@
 
                     $sql->bindValue(1,$_POST["categoria"]);
                     $sql->bindValue(2,$_POST["estado"]);
-                    $sql->bindValue(3,$_POST["id_usuario"]);
+                    $sql->bindValue(3,$_SESSION["id_usuario"]);
                     $sql->bindValue(4,$_POST["id_categoria"]);
                     $sql->execute();
        
@@ -137,7 +136,7 @@
                     $sql=$conectar->prepare($sql);
 
                     $sql->bindValue(1,$_POST["estado"]);
-                    $sql->bindValue(2,$_POST["id_usuario"]);
+                    $sql->bindValue(2,$_SESSION["id_usuario"]);
                     $sql->bindValue(3,$_POST["id_categoria"]);
                     $sql->execute();
        
@@ -146,12 +145,12 @@
 
  
             
-        }
+      }
 
 
          //método para activar Y/0 desactivar el estado de la categoria
 
-        public function editar_estado($id_categoria,$estado){
+      public function editar_estado($id_categoria,$estado){
 
         	 $conectar=parent::conexion();
 
@@ -179,32 +178,33 @@
         	 $sql->bindValue(1,$estado);
         	 $sql->bindValue(2,$id_categoria);
         	 $sql->execute();
-        }
+      }
 
 
         //método si la categoria existe en la base de datos
 
-        public function get_nombre_categoria($categoria){
+      public function get_nombre_categoria($categoria){
 
            $conectar=parent::conexion();
 
-          $sql="select * from categoria where categoria=?";
+          $sql="select * from categoria where categoria=? and id_usuario=?";
 
            //echo $sql; exit();
 
            $sql=$conectar->prepare($sql);
 
            $sql->bindValue(1,$categoria);
+           $sql->bindValue(2,$_SESSION['id_usuario']);
            $sql->execute();
 
            //print_r($email); exit();
 
            return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
-        }
+      }
        
 
         //método para eliminar un registro
-        public function eliminar_categoria($id_categoria){
+      public function eliminar_categoria($id_categoria){
 
            $conectar=parent::conexion();
          
@@ -216,10 +216,10 @@
            $sql->execute();
 
            return $resultado=$sql->fetch();
-        }
+      }
 
 
-         public function get_categoria_por_id_usuario($id_usuario){
+      public function get_categoria_por_id_usuario($id_usuario){
 
           $conectar= parent::conexion();
 
@@ -227,7 +227,7 @@
 
               $sql=$conectar->prepare($sql);
 
-              $sql->bindValue(1, $id_usuario);
+              $sql->bindValue(1, $_SESSION['id_usuario']);
               $sql->execute();
 
               return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -237,7 +237,7 @@
 
 
              //consulta si el id_categoria tiene una compra asociada
-       public function get_categoria_por_id_compras($id_categoria){
+      public function get_categoria_por_id_compras($id_categoria){
 
              
              $conectar=parent::conexion();
@@ -261,7 +261,7 @@
 
              return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
 
-    }
+      }
 
       
       //consulta si el id_categoria tiene un detalle_compra asociado
@@ -277,17 +277,18 @@
               INNER JOIN detalle_compras d ON c.id_categoria=d.id_categoria
 
 
-              where c.id_categoria=?
+              where c.id_categoria=? and id_usuario=?
 
               ";
 
              $sql=$conectar->prepare($sql);
              $sql->bindValue(1,$id_categoria);
+             $sql->bindValue(2,$_SESSION['id_usuario']);
              $sql->execute();
 
              return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
        
-       }
+      }
 
 
 

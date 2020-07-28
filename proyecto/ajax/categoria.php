@@ -44,7 +44,7 @@
 
 			       	   	  //no existe la categoria por lo tanto hacemos el registros
 
-		 $categorias->registrar_categoria($categoria,$estado,$id_usuario);
+		                   $categorias->registrar_categoria($categoria,$estado,$id_usuario);
 
 
 

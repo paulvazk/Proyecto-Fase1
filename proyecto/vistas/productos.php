@@ -178,9 +178,34 @@
                   
                      <select class="selectpicker form-control" id="unidad" name="unidad" required>
                       <option value="">-- Seleccione unidad --</option>
-                      <option value="kilo">kilo</option>
+                      <option value="Pieza">Pieza</option>
+                      <option value="Elemento">Elemento</option>
+                      <option value="Actividad">Actividad</option>
+                      <option value="Servicio">Servicio</option>
+                      <option value="Kilogramo">Kilogramo</option>
+                      <option value="Trabajo">Trabajo</option>
+                      <option value="Tarifa">Tarifa</option>
+                      <option value="Metro">Metro</option>
+                      <option value="Paquete a granel">Paquete a granel</option>
+                      <option value="Caja base">Caja base</option>
+                      <option value="Conjunto">Conjunto</option>
+                      <option value="Litro">Litro</option>
+                      <option value="Caja">Caja</option>
+                      <option value="Mes">Mes</option>
+                      <option value="Hora">Hora</option>
+                      <option value="Metro cuadrado">Metro cuadrado</option>
+                      <option value="Equipos">Equipos</option>
+                      <option value="Miligramos">Miligramos</option>
+                      <option value="Paquete">Paquete</option>
+                      <option value="Variedad">Variedad</option>
                       <option value="Gramo">Gramo</option>
-
+                      <option value="Par">Par</option>
+                      <option value="Unidad">Unidad</option>
+                      <option value="Dia">Dia</option>
+                      <option value="Lote">Lote</option>
+                      <option value="Grupos">Grupos</option>
+                      <option value="Mililitros">Mililitros</option>
+                      <option value="Viaje">Viaje</option>
                     </select>
 
 
@@ -196,7 +221,7 @@
                     <select class="selectpicker form-control" id="moneda" name="moneda" required>
                       <option value="">-- Seleccione moneda --</option>
                       <option value="USD$">USD$</option>
-                      <option value="EUR">EUR€</option>
+                      <option value="EUR">MXN$</option>
 
                     </select>
 

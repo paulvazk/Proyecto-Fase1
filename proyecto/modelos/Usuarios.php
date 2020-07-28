@@ -22,14 +22,14 @@
 
              return $sql->rowCount();
         
-        }
+         }
 
 
-        public function login(){
+         public function login(){
 
             $conectar=parent::conexion();
             parent::set_names();
-
+            
             if(isset($_POST["enviar"])){
 
               //INICIO DE VALIDACIONES
@@ -38,7 +38,6 @@
               $correo = $_POST["correo"];
 
               $estado = "1";
-
                 if(empty($correo) and empty($password)){
 
                   header("Location:".Conectar::ruta()."index.php?m=2");
@@ -47,76 +46,106 @@
 
                 }
 
-                 else if(!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){12,15}$/", $password)) {
+                 /*else if(!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])([A-Za-z\d$@$!%*?&]|[^ ]){12,15}$/", $password)) {
 
               header("Location:".Conectar::ruta()."index.php?m=1");
               exit();
 
-            }
+            }*/
 
              else {
+              $curl = curl_init();
+              curl_setopt_array($curl, array(
+                CURLOPT_URL => "http://localhost:3001/api/login",
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "POST",
+                CURLOPT_POSTFIELDS =>"{\n\t\"email\":\"$correo\",\n\t\"password\":\"$password\"\n}",
+                CURLOPT_HTTPHEADER => array(
+                  "Content-Type: application/json"
+                ),
+              ));
+             // $response = curl_exec($curl);
 
-                  $sql= "select * from usuarios where correo=? and password=? and estado=?";
+                  
+                  //$sql= "select * from usuarios where correo=? and password=? and estado=?";
+                  $sql= curl_exec($curl);
+                  curl_close($curl);
 
-                  $sql=$conectar->prepare($sql);
+                 /* $sql=$conectar->prepare($sql);
 
                   $sql->bindValue(1, $correo);
                   $sql->bindValue(2, $password);
                   $sql->bindValue(3, $estado);
                   $sql->execute();
-                  $resultado = $sql->fetch();
+                  $resultado = $sql->fetch();*/
+                  $resultado = json_decode($sql, true);
 
                           //si existe el registro entonces se conecta en session
-                      if(is_array($resultado) and count($resultado)>0){
+                          //and 
+                      if(is_array($resultado) and count($resultado)>0 and !$resultado["error"]){
 
                          /*IMPORTANTE: la session guarda los valores de los campos de la tabla de la bd*/
                        $_SESSION["id_usuario"] = $resultado["id_usuario"];
-                       $_SESSION["correo"] = $resultado["correo"];
-                       $_SESSION["cedula"] = $resultado["cedula"];
+                       $_SESSION["correo"] = $resultado["email"];
+                       $_SESSION["cedula"] = $resultado["nombres"];
                        $_SESSION["nombre"] = $resultado["nombres"];
 
                   
-       //PERMISOS DEL USUARIO PARA ACCEDER A LOS MODULOS
+            //PERMISOS DEL USUARIO PARA ACCEDER A LOS MODULOS
 
-        require_once("Usuarios.php");
-
-        $usuario = new Usuarios();
+            require_once("Usuarios.php");
+ 
+            $usuario = new Usuarios();
         
-       //VERIFICAMOS SI EL USUARIO TIENE PERMISOS A CIERTOS MODULOS
-        $marcados = $usuario->listar_permisos_por_usuario($resultado["id_usuario"]);
-        
-        //print_r($marcados);
+           //VERIFICAMOS SI EL USUARIO TIENE PERMISOS A CIERTOS MODULOS
+           $marcados = $usuario->listar_permisos_por_usuario($resultado["id_usuario"]);
 
-      //declaramos el array para almacenar todos los registros marcados
+          //declaramos el array para almacenar todos los registros marcados
 
-       $valores=array();
+           $valores=array();
 
-      //Almacenamos los permisos marcados en el array
+           //Almacenamos los permisos marcados en el array
 
-          foreach($marcados as $row){
-
+           foreach($marcados as $row){
+ 
               $valores[]= $row["id_permiso"];
-          }
+           }
 
 
-      ////Determinamos los accesos del usuario
-      //si los id_permiso estan en el array $valores entonces se ejecuta la session=1, en caso contrario el usuario no tendria acceso al modulo
-      
-      in_array(1,$valores)?$_SESSION['categoria']=1:$_SESSION['categoria']=0;
-      //in_array(2,$valores)?$_SESSION['presentacion']=1:$_SESSION['presentacion']=0;
-      in_array(2,$valores)?$_SESSION['productos']=1:$_SESSION['productos']=0;
-      in_array(3,$valores)?$_SESSION['proveedores']=1:$_SESSION['proveedores']=0;
-      in_array(4,$valores)?$_SESSION['compras']=1:$_SESSION['compras']=0;
-      in_array(5,$valores)?$_SESSION['clientes']=1:$_SESSION['clientes']=0;
-      in_array(6,$valores)?$_SESSION['ventas']=1:$_SESSION['ventas']=0;
-      in_array(7,$valores)?$_SESSION['reporte_compras']=1:$_SESSION['reporte_compras']=0;
-      in_array(8,$valores)?$_SESSION['reporte_ventas']=1:$_SESSION['reporte_ventas']=0;
-      in_array(9,$valores)?$_SESSION['usuarios']=1:$_SESSION['usuarios']=0;
-      //in_array(10,$valores)?$_SESSION['backup']=1:$_SESSION['backup']=0;
-      in_array(10,$valores)?$_SESSION['empresa']=1:$_SESSION['empresa']=0;
+           ////Determinamos los accesos del usuario
+           //si los id_permiso estan en el array $valores entonces se ejecuta la session=1, en caso contrario el usuario no tendria acceso al modulo
+           /*
+           in_array(1,$valores)?$_SESSION['categoria']=1:$_SESSION['categoria']=0;
+           //in_array(2,$valores)?$_SESSION['presentacion']=1:$_SESSION['presentacion']=0;
+           in_array(2,$valores)?$_SESSION['productos']=1:$_SESSION['productos']=0;
+           in_array(3,$valores)?$_SESSION['proveedores']=1:$_SESSION['proveedores']=0;
+           in_array(4,$valores)?$_SESSION['compras']=1:$_SESSION['compras']=0;
+           in_array(5,$valores)?$_SESSION['clientes']=1:$_SESSION['clientes']=0;
+           in_array(6,$valores)?$_SESSION['ventas']=1:$_SESSION['ventas']=0;
+           in_array(7,$valores)?$_SESSION['reporte_compras']=1:$_SESSION['reporte_compras']=0;
+           in_array(8,$valores)?$_SESSION['reporte_ventas']=1:$_SESSION['reporte_ventas']=0;
+           in_array(9,$valores)?$_SESSION['usuarios']=1:$_SESSION['usuarios']=0;
+           //in_array(10,$valores)?$_SESSION['backup']=1:$_SESSION['backup']=0;
+           in_array(10,$valores)?$_SESSION['empresa']=1:$_SESSION['empresa']=0;*/
+
+          $_SESSION['categoria']=1;
+          $_SESSION['productos']=1;
+          $_SESSION['proveedores']=1;
+          $_SESSION['compras']=1;
+          $_SESSION['clientes']=1;
+          $_SESSION['ventas']=1;
+          $_SESSION['reporte_compras']=1;
+          $_SESSION['reporte_ventas']=1;
+          $_SESSION['usuarios']=1;
+          $_SESSION['empresa']=1;
           
 
-      //FIN PERMISOS DEL USUARIO   
+           //FIN PERMISOS DEL USUARIO   
 
 
 
@@ -136,7 +165,7 @@
 
 
             }//condicion enviar
-        }
+         }
 
        //listar los usuarios
    	    public function get_usuarios(){

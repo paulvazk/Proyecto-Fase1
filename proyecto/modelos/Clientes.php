@@ -11,38 +11,39 @@
 
              $conectar= parent::conexion();
            
-             $sql="select * from clientes";
+             $sql="select * from clientes where id_usuario=?";
              
              $sql=$conectar->prepare($sql);
-
+             $sql->bindValue(1, $_SESSION['id_usuario']);
              $sql->execute();
 
              $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 
              return $sql->rowCount();
         
-        }
+      }
 
            
        //método para seleccionar registros
 
-   	   public function get_clientes(){
+   	public function get_clientes(){
 
    	   	  $conectar=parent::conexion();
    	   	  parent::set_names();
 
-   	   	  $sql="select * from clientes";
+   	   	  $sql="select * from clientes where id_usuario=?";
 
-   	   	  $sql=$conectar->prepare($sql);
+              $sql=$conectar->prepare($sql);
+              $sql->bindValue(1, $_SESSION['id_usuario']);
    	   	  $sql->execute();
 
    	   	  return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
-   	   }
+   	}
 
 
    	     //método para insertar registros
 
-        public function registrar_cliente($cedula,$nombre,$apellido,$telefono,$correo,$direccion,$estado,$id_usuario){
+      public function registrar_cliente($cedula,$nombre,$apellido,$telefono,$correo,$direccion,$estado,$id_usuario){
 
 
            $conectar= parent::conexion();
@@ -61,28 +62,29 @@
             $sql->bindValue(5, $_POST["email"]);
             $sql->bindValue(6, $_POST["direccion"]);
             $sql->bindValue(7, $_POST["estado"]);
-            $sql->bindValue(8, $_POST["id_usuario"]);
+            $sql->bindValue(8, $_SESSION["id_usuario"]);
             $sql->execute();
       
          
-        }
+      }
 
 
          //método para mostrar los datos de un registro a modificar
-        public function get_cliente_por_cedula($cedula){
+      public function get_cliente_por_cedula($cedula){
 
             
             $conectar= parent::conexion();
             parent::set_names();
 
-            $sql="select * from clientes where cedula_cliente=?";
+            $sql="select * from clientes where cedula_cliente=? and id_usuario=?";
 
             $sql=$conectar->prepare($sql);
 
             $sql->bindValue(1, $cedula);
+            $sql->bindValue(2, $_SESSION['id_usuario']);
             $sql->execute();
             return $resultado=$sql->fetchAll();
-        }
+      }
 
       
      
@@ -90,27 +92,28 @@
 
          //este metodo es para validar el id del cliente(luego llamamos el metodo de editar_estado()) 
         //el id_cliente se envia por ajax cuando se editar el boton cambiar estado y que se ejecuta el evento onclick y llama la funcion de javascript
-        public function get_cliente_por_id($id_cliente){
+      public function get_cliente_por_id($id_cliente){
 
           $conectar= parent::conexion();
 
           //$output = array();
 
-          $sql="select * from clientes where id_cliente=?";
+          $sql="select * from clientes where id_cliente=? and id_usuario=?";
 
                 $sql=$conectar->prepare($sql);
 
                 $sql->bindValue(1, $id_cliente);
+                $sql->bindValue(2, $_SESSION['id_usuario']);
                 $sql->execute();
 
                 return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 
 
-        } 
+      } 
 
          //método para editar un registro
        
-        public function editar_cliente($cedula,$nombre,$apellido,$telefono,$correo,$direccion,$estado,$id_usuario){
+      public function editar_cliente($cedula,$nombre,$apellido,$telefono,$correo,$direccion,$estado,$id_usuario){
 
         	$conectar=parent::conexion();
         	parent::set_names();
@@ -139,7 +142,7 @@
                    estado=?,
                    id_usuario=?
                    where 
-                   cedula_cliente=?
+                   cedula_cliente=? and id_usuario=?
 
                 ";
                 
@@ -153,8 +156,9 @@
                       $sql->bindValue(5, $_POST["email"]);
                       $sql->bindValue(6, $_POST["direccion"]);
                       $sql->bindValue(7, $_POST["estado"]);
-                      $sql->bindValue(8, $_POST["id_usuario"]);
+                      $sql->bindValue(8, $_SESSION["id_usuario"]);
                       $sql->bindValue(9, $_POST["cedula_cliente"]);
+                      $sql->bindValue(10, $_SESSION["id_usuario"]);
                       $sql->execute();
 
             } else{
@@ -170,7 +174,7 @@
                          estado=?,
                          id_usuario=?
                          where 
-                         cedula_cliente=?
+                         cedula_cliente=? and id_usuario=?
                       ";
 
                       $sql=$conectar->prepare($sql);
@@ -180,20 +184,21 @@
                       $sql->bindValue(2, $_POST["email"]);
                       $sql->bindValue(3, $_POST["direccion"]);
                       $sql->bindValue(4, $_POST["estado"]);
-                      $sql->bindValue(5, $_POST["id_usuario"]);
+                      $sql->bindValue(5, $_SESSION["id_usuario"]);
                       $sql->bindValue(6, $_POST["cedula_cliente"]);
+                      $sql->bindValue(7, $_SESSION["id_usuario"]);
                       $sql->execute();
 
             }
  
 
 
-        }
+      }
 
 
 
         /*metodo que valida si hay registros activos*/
-        public function get_cliente_por_id_estado($id_cliente,$estado){
+      public function get_cliente_por_id_estado($id_cliente,$estado){
 
          $conectar= parent::conexion();
 
@@ -202,23 +207,24 @@
          $estado=1;
 
           
-        $sql="select * from clientes where id_cliente=? and estado=?";
+        $sql="select * from clientes where id_cliente=? and estado=? and id_usuario=?";
 
               $sql=$conectar->prepare($sql);
 
               $sql->bindValue(1, $id_cliente);
                $sql->bindValue(2, $estado);
+               $sql->bindValue(3, $_SESSION['id_usuario']);
               $sql->execute();
 
               return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 
 
-         }
+      }
 
 
           //método para activar Y/0 desactivar el estado del cliente
 
-        public function editar_estado($id_cliente,$estado){
+      public function editar_estado($id_cliente,$estado){
 
         	 $conectar=parent::conexion();
 
@@ -237,39 +243,40 @@
               
               estado=?
               where 
-              id_cliente=?
+              id_cliente=? and id_usuario=?
 
         	 ";
 
         	 $sql=$conectar->prepare($sql);
 
-        	 $sql->bindValue(1,$estado);
-        	 $sql->bindValue(2,$id_cliente);
+        	  $sql->bindValue(1,$estado);
+            $sql->bindValue(2,$id_cliente);
+            $sql->bindValue(3,$_SESSION['id_usuario']);
         	 $sql->execute();
-        }
+      }
 
          //método si el cliente existe en la base de datos
         //valida si existe la cedula, cliente o correo, si existe entonces se hace el registro del cliente
-        public function get_datos_cliente($cedula,$cliente,$correo){
+      public function get_datos_cliente($cedula,$cliente,$correo){
 
            $conectar=parent::conexion();
 
-           $sql= "select * from clientes where cedula_cliente=? or nombre_cliente=? or correo_cliente=?";
-
+           //$sql= "select * from clientes where id_usuario=? and cedula_cliente=? and correo_cliente=?";
+           $sql= "select * from clientes where cedula_cliente=? and id_usuario=?";
 	        $sql=$conectar->prepare($sql);
-
-	        $sql->bindValue(1, $cedula);
-	        $sql->bindValue(2, $cliente);
-	        $sql->bindValue(3, $correo);
+           $sql->bindValue(2,$_SESSION['id_usuario']);
+           $sql->bindValue(1, $cedula);
+          // $sql->bindValue(3, $correo);
+           
 	        $sql->execute();
 
            //print_r($email); exit();
 
            return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
-        }
+      }
 
         
-         public function eliminar_cliente($id_cliente){
+      public function eliminar_cliente($id_cliente){
 
                 $conectar=parent::conexion();
 
@@ -281,10 +288,10 @@
                 $sql->execute();
 
                 return $resultado=$sql->fetch(PDO::FETCH_ASSOC);
-        }
+      }
 
 
-         public function get_cliente_por_id_usuario($id_usuario){
+      public function get_cliente_por_id_usuario($id_usuario){
 
            $conectar= parent::conexion();
 
@@ -303,7 +310,7 @@
 
 
          //consulta si la cedula del cliente con tiene un detalle_venta asociado
-    public function get_cliente_por_cedula_ventas($cedula_cliente){
+      public function get_cliente_por_cedula_ventas($cedula_cliente){
 
              
              $conectar=parent::conexion();
@@ -317,22 +324,23 @@
               INNER JOIN ventas v ON c.cedula_cliente=v.cedula_cliente
 
 
-              where c.cedula_cliente=?
+              where c.cedula_cliente=? and c.id_usuario=?
 
               ";
 
              $sql=$conectar->prepare($sql);
              $sql->bindValue(1,$cedula_cliente);
+             $sql->bindValue(2,$_SESSION['id_usuario']);
              $sql->execute();
 
              return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
 
-        }
+      }
 
 
 
         //consulta si el id del cliente tiene un detalle_venta asociado
-        public function get_cliente_por_cedula_detalle_ventas($cedula_cliente){
+      public function get_cliente_por_cedula_detalle_ventas($cedula_cliente){
 
                  
              $conectar=parent::conexion();
@@ -345,17 +353,18 @@
               INNER JOIN detalle_ventas d ON c.cedula_cliente=d.cedula_cliente
 
 
-              where c.cedula_cliente=?
+              where c.cedula_cliente=? and c.id_usuario=?
 
               ";
 
              $sql=$conectar->prepare($sql);
              $sql->bindValue(1,$cedula_cliente);
+             $sql->bindValue(2,$_SESSION['id_usuario']);
              $sql->execute();
 
              return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
       
-       }
+      }
 
 
   }

@@ -1,0 +1,12 @@
+{
+    "name": "omy-m/proyecto-fase1",
+    "authors": [
+        {
+            "name": "Jacobo Rodrigo Hernandez Mendieta",
+            "email": "jacobohernandezmendieta7@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^4.1"
+    }
+}

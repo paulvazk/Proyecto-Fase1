@@ -11,17 +11,17 @@
 
              $conectar= parent::conexion();
            
-             $sql="select * from producto";
+             $sql="select * from producto where id_usuario=?";
              
              $sql=$conectar->prepare($sql);
-
+             $sql->bindValue(1, $_SESSION['id_usuario']);
              $sql->execute();
 
              $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 
              return $sql->rowCount();
         
-        }
+      }
 
           
       //método para seleccionar registros
@@ -35,18 +35,19 @@
            from producto p 
               
               INNER JOIN categoria c ON p.id_categoria=c.id_categoria
-             
+              where p.id_usuario=? and c.id_usuario=?
 
            ";
 
            $sql=$conectar->prepare($sql);
-
+           $sql->bindValue(1, $_SESSION['id_usuario']);
+           $sql->bindValue(2, $_SESSION['id_usuario']);
            $sql->execute();
 
            return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 
          
-         }
+      }
 
           //método para seleccionar registros
 
@@ -61,23 +62,24 @@
               INNER JOIN categoria c ON p.id_categoria=c.id_categoria
 
 
-              where p.stock > 0 and p.estado='1'
+              where p.stock > 0 and p.estado='1' and p.id_usuario=? and c.id_usuario=?
              
 
            ";
 
            $sql=$conectar->prepare($sql);
-
+           $sql->bindValue(1, $_SESSION['id_usuario']);
+           $sql->bindValue(2, $_SESSION['id_usuario']);
            $sql->execute();
 
            return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 
          
-         }
+      }
 
 
            /*poner la ruta vistas/upload*/
-         public function upload_image() {
+      public function upload_image() {
 
             if(isset($_FILES["producto_imagen"]))
             {
@@ -89,7 +91,7 @@
             }
 
 
-          }
+      }
 
 
           //método para insertar registros
@@ -152,7 +154,7 @@
             $sql->bindValue(9, $_POST["estado"]);
             $sql->bindValue(10, $image);
             $sql->bindValue(11, $fecha);
-            $sql->bindValue(12, $_POST["id_usuario"]);
+            $sql->bindValue(12, $_SESSION["id_usuario"]);
             $sql->execute();
 
            
@@ -167,11 +169,12 @@
 
           //$output = array();
 
-            $sql="select * from producto where id_producto=?";
+            $sql="select * from producto where id_producto=? and id_usuario=?";
 
             $sql=$conectar->prepare($sql);
 
             $sql->bindValue(1, $id_producto);
+            $sql->bindValue(2, $_SESSION['id_usuario']);
             $sql->execute();
 
             return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
@@ -190,85 +193,86 @@
             $estado=1;
 
 
-            $sql="select * from producto where id_producto=? and estado=?";
+            $sql="select * from producto where id_producto=? and estado=? and id_usuario=?";
 
             $sql=$conectar->prepare($sql);
 
             $sql->bindValue(1, $id_producto);
             $sql->bindValue(2, $estado);
+            $sql->bindValue(3, $_SESSION['id_usuario']);
             $sql->execute();
 
             return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 
 
-    }
+        }
 
 
 
          //método para editar registros
 
-    public function editar_producto($id_producto,$id_categoria,$producto,$presentacion,$unidad,$moneda,$precio_compra,$precio_venta,$stock,$estado,$imagen,$id_usuario){
+        public function editar_producto($id_producto,$id_categoria,$producto,$presentacion,$unidad,$moneda,$precio_compra,$precio_venta,$stock,$estado,$imagen,$id_usuario){
 
-      $conectar=parent::conexion();
-      parent::set_names();
+           $conectar=parent::conexion();
+           parent::set_names();
 
 
-       //declaro que si el campo stock es vacio entonces seria un 0 en caso contrario se pondria el valor que se envia 
+            //declaro que si el campo stock es vacio entonces seria un 0 en caso contrario se pondria el valor que se envia 
 
-         $stock = "";
+            $stock = "";
 
-         if($stock==""){
+             if($stock==""){
                    
-           $stocker=0;
+               $stocker=0;
         
-         } else {
+              } else {
 
-            $stocker = $_POST["stock"];
-         }
-
-
-      //llamo a la funcion upload_image()
-
-      require_once("Productos.php");
+               $stocker = $_POST["stock"];
+             }
 
 
-      $imagen_producto = new Producto();
+              //llamo a la funcion upload_image()
 
-      $imagen = '';
+              require_once("Productos.php");
 
-      if($_FILES["producto_imagen"]["name"] != '')
-        {
-          $imagen = $imagen_producto->upload_image();
-        }
-      else
-        {
+
+              $imagen_producto = new Producto();
+
+              $imagen = '';
+
+              if($_FILES["producto_imagen"]["name"] != '')
+           {
+             $imagen = $imagen_producto->upload_image();
+           }
+            else
+             {
           
-          $imagen = $_POST["hidden_producto_imagen"];
-        }
+               $imagen = $_POST["hidden_producto_imagen"];
+             }
 
-      //fecha 
+               //fecha 
+ 
+            $fecha = $_POST["datepicker"];
 
-      $fecha = $_POST["datepicker"];
-
-      $date_inicial = str_replace('/', '-', $fecha);
-      $fecha = date("Y-m-d",strtotime($date_inicial));
+          $date_inicial = str_replace('/', '-', $fecha);
+          $fecha = date("Y-m-d",strtotime($date_inicial));
 
        
-       /*****************************************************************/
+           /*****************************************************************/
          
-//PROCESO DE VALIDACION SI EL PRODUCTO TIENE REGISTROS ASOCIADOS ENTONCES NO SE EDITA EL PRODUCTO PERO SI SE EDITA SUS CARACTERISTICAS PERO SOLO EN LA TABLA PRODUCTO, SIN AFECTAR EL NOMBRE DEL PRODUCTO EN LOS REGISTROS ASOCIADOS, AHORA SI EL PRODUCTO NO TIENE REGISTROS ASOCIADOS ENTONCES SE PUEDE EDITAR EL NOMBRE DEL PRODUCTO Y SUS CARACTERISTICAS EN LA TABLA PRODUCTO
+           //PROCESO DE VALIDACION SI EL PRODUCTO TIENE REGISTROS ASOCIADOS ENTONCES NO SE EDITA EL PRODUCTO PERO SI SE EDITA SUS CARACTERISTICAS PERO SOLO EN LA TABLA PRODUCTO, SIN AFECTAR EL NOMBRE DEL PRODUCTO EN LOS REGISTROS ASOCIADOS, AHORA SI EL PRODUCTO NO TIENE REGISTROS ASOCIADOS ENTONCES SE PUEDE EDITAR EL NOMBRE DEL PRODUCTO Y SUS CARACTERISTICAS EN LA TABLA PRODUCTO
 
      
-      $producto = new Producto();
+           $producto = new Producto();
 
-       //verifica si el id_producto tiene registro asociado a detalle_compra
-         $producto_detalle_compra=$producto->get_producto_por_id_detalle_compra($_POST["id_producto"]);
+               //verifica si el id_producto tiene registro asociado a detalle_compra
+               $producto_detalle_compra=$producto->get_producto_por_id_detalle_compra($_POST["id_producto"]);
 
-          //verifica si el id_producto tiene registro asociado a detalle_venta
-        $producto_detalle_venta=$producto->get_producto_por_id_detalle_venta($_POST["id_producto"]);
+              //verifica si el id_producto tiene registro asociado a detalle_venta
+              $producto_detalle_venta=$producto->get_producto_por_id_detalle_venta($_POST["id_producto"]);
 
-          /*valido si el producto NO tiene registros asociados a detalle_compras y detalle_ventas entonces se edita el producto*/
-          if(is_array($producto_detalle_compra)==true and count($producto_detalle_compra)==0 and is_array($producto_detalle_venta)==true and count($producto_detalle_venta)==0){
+                 /*valido si el producto NO tiene registros asociados a detalle_compras y detalle_ventas entonces se edita el producto*/
+                if(is_array($producto_detalle_compra)==true and count($producto_detalle_compra)==0 and is_array($producto_detalle_venta)==true and count($producto_detalle_venta)==0){
 
                 
                 $sql="update producto set 
@@ -301,12 +305,12 @@
                 $sql->bindValue(9, $_POST["estado"]);
                 $sql->bindValue(10, $imagen);
                 $sql->bindValue(11, $fecha);
-                $sql->bindValue(12, $_POST["id_usuario"]);
+                $sql->bindValue(12, $_SESSION["id_usuario"]);
                 $sql->bindValue(13, $_POST["id_producto"]);
                 $sql->execute();
 
 
-           } else {
+             } else {
 
                 //si el producto tiene registros asociados a detalle_venta y detalle_compras entonces no se edita la categoria,producto, moneda
 
@@ -335,7 +339,7 @@
                       $sql->bindValue(6, $_POST["estado"]);
                       $sql->bindValue(7, $imagen);
                       $sql->bindValue(8, $fecha);
-                      $sql->bindValue(9, $_POST["id_usuario"]);
+                      $sql->bindValue(9, $_SESSION["id_usuario"]);
                       $sql->bindValue(10, $_POST["id_producto"]);
                       $sql->execute();
 
@@ -343,11 +347,11 @@
           }
 
 
-    }
+        }
       
         //método para activar Y/0 desactivar el estado del producto
 
-             public function editar_estado($id_producto,$estado){
+        public function editar_estado($id_producto,$estado){
 
               $conectar=parent::conexion();
               parent::set_names();
@@ -364,28 +368,30 @@
                     
                     estado=?
                     where 
-                    id_producto=?
+                    id_producto=? and id_usuario=?
                       ";
 
                     $sql=$conectar->prepare($sql);
 
                     $sql->bindValue(1, $estado);
                     $sql->bindValue(2, $id_producto);
+                    $sql->bindValue(3, $_SESSION['id_usuario']);
                     $sql->execute();
 
                    
-          }
+        }
 
 
-          public function get_producto_nombre($producto){
+        public function get_producto_nombre($producto){
 
               $conectar=parent::conexion();
 
-              $sql= "select * from producto where producto=?";
+              $sql= "select * from producto where producto=? and id_usuario=?";
 
               $sql=$conectar->prepare($sql);
 
               $sql->bindValue(1, $producto);
+              $sql->bindValue(2, $_SESSION['id_usuario']);
               $sql->execute();
               return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
         }
@@ -393,34 +399,35 @@
 
         //editar estado del producto por categoria
 
-    public function editar_estado_producto_por_categoria($id_categoria,$estado){
+        public function editar_estado_producto_por_categoria($id_categoria,$estado){
 
-      $conectar=parent::conexion();
-      parent::set_names();
+         $conectar=parent::conexion();
+         parent::set_names();
             
             //si estado es igual a 0 entonces lo cambia a 1
-      $estado = 0;
-      //el parametro est se envia por via ajax, viene del $est:est
-      if($_POST["est"] == 0){
-        $estado = 1;
-      }
+         $estado = 0;
+          //el parametro est se envia por via ajax, viene del $est:est
+          if($_POST["est"] == 0){
+         $estado = 1;
+         }
 
 
-      $sql="update producto set 
+         $sql="update producto set 
             
             estado=?
             where 
-            id_categoria=?
+            id_categoria=? and id_usuario=?
               ";
 
             $sql=$conectar->prepare($sql);
 
             $sql->bindValue(1, $estado);
             $sql->bindValue(2, $id_categoria);
+            $sql->bindValue(3, $_SESSION['id_usuario']);
             $sql->execute();
 
             
-    }
+        }
 
 
        //editar estado de la categoria por producto
@@ -440,13 +447,14 @@
                 
                 estado=?
                 where 
-                id_categoria=?
+                id_categoria=? and id_usuario=?
                   ";
 
                 $sql=$conectar->prepare($sql);
 
                 $sql->bindValue(1, 1);
                 $sql->bindValue(2, $id_categoria);
+                $sql->bindValue(3, $_SESSION['id_usuario']);
                 $sql->execute();
 
                
@@ -454,59 +462,62 @@
            }
 
           
-    }
+        }
 
 
         //metodo para consultar si la tabla productos tiene registros asociados con categorias
          public function get_prod_por_id_cat($id_categoria){
 
-      $conectar= parent::conexion();
+          $conectar= parent::conexion();
 
-      //$output = array();
+          //$output = array();
 
-      $sql="select * from producto where id_categoria=?";
+          $sql="select * from producto where id_categoria=? and id_usuario=?";
 
             $sql=$conectar->prepare($sql);
 
             $sql->bindValue(1, $id_categoria);
+            $sql->bindValue(2, $_SESSION['id_usuario']);
             $sql->execute();
 
             return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 
           
-          }
+         }
 
 
                  //consulta si el id del producto con tiene un detalle_compra asociado
-    public function get_producto_por_id_detalle_compra($id_producto){
+        public function get_producto_por_id_detalle_compra($id_producto){
 
              
              $conectar=parent::conexion();
              parent::set_names();
 
 
-      $sql="select p.id_producto,p.producto,c.id_producto, c.producto as producto_compras
+             $sql="select p.id_producto,p.producto,c.id_producto, c.producto as producto_compras
                  
-           from producto p 
+             from producto p 
               
-              INNER JOIN detalle_compras c ON p.id_producto=c.id_producto
+               INNER JOIN detalle_compras c ON p.id_producto=c.id_producto
 
 
-              where p.id_producto=?
+               where p.id_producto=? and p.id_usuario=? and c.id_usuario=?
 
               ";
 
              $sql=$conectar->prepare($sql);
              $sql->bindValue(1,$id_producto);
+             $sql->bindValue(2, $_SESSION['id_usuario']);
+             $sql->bindValue(3, $_SESSION['id_usuario']);
              $sql->execute();
 
              return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
 
-      }
+        }
 
 
        //consulta si el id del producto con tiene un detalle_venta asociado
-    public function get_producto_por_id_detalle_venta($id_producto){
+        public function get_producto_por_id_detalle_venta($id_producto){
 
              
              $conectar=parent::conexion();
@@ -520,39 +531,42 @@
               
               INNER JOIN detalle_ventas v ON p.id_producto=v.id_producto
 
-              where p.id_producto=?
+              where p.id_producto=? and p.id_usuario=? and v.id_usuario=?
 
               ";
 
              $sql=$conectar->prepare($sql);
              $sql->bindValue(1,$id_producto);
+             $sql->bindValue(2, $_SESSION['id_usuario']);
+             $sql->bindValue(3, $_SESSION['id_usuario']);
              $sql->execute();
 
              return $resultado=$sql->fetchAll(PDO::FETCH_ASSOC);
 
-      }
+        }
 
         public function eliminar_producto($id_producto){
 
-        $conectar=parent::conexion();
+          $conectar=parent::conexion();
 
-              $sql="delete from producto where id_producto=?";
+              $sql="delete from producto where id_producto=? and id_usuario=?";
 
               $sql=$conectar->prepare($sql);
 
               $sql->bindValue(1, $id_producto);
+              $sql->bindValue(2, $_SESSION['id_usuario']);
               $sql->execute();
 
               return $resultado=$sql->fetch(PDO::FETCH_ASSOC);
-      }
+        }
         
         public function get_producto_por_id_usuario($id_usuario){
 
-        $conectar= parent::conexion();
+           $conectar= parent::conexion();
 
-        //$output = array();
+            //$output = array();
 
-        $sql="select * from producto where id_usuario=?";
+            $sql="select * from producto where id_usuario=?";
 
               $sql=$conectar->prepare($sql);
 
@@ -562,7 +576,7 @@
               return $resultado= $sql->fetchAll(PDO::FETCH_ASSOC);
 
 
-      }
+        }
 
    	
    }
