@@ -55,9 +55,13 @@
                 <label for="inputPassword">Fecha Final</label>
                
                   <input type="text" class="form-control" id="datepicker2" name="datepicker2" placeholder="Fecha Final">
+                  <input type="hidden" id="fechaActual" name="fechaActual" value="">
               
               </div>
-
+              <script>
+                var f = new Date();
+                document.getElementById("fechaActual").value=f.getDate()+ "-"+(f.getMonth()+1)+"-"+f.getFullYear() +" "+ f.getHours()+":"+f.getMinutes()+":"+f.getSeconds()
+              </script>
 
             <div class="form-group">
 

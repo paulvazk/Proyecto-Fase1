@@ -522,7 +522,7 @@
           },
 
               exporting: {
-              url: 'http://export.highcharts.com/',
+              url: 'https://export.highcharts.com/',
               enabled: false
         
                 },

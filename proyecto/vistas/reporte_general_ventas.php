@@ -306,7 +306,7 @@
 			    },
 
 			        exporting: {
-			        url: 'http://export.highcharts.com/',
+			        url: 'https://export.highcharts.com/',
 			        enabled: false
         
                 },
@@ -361,7 +361,7 @@
 
 			});
 
-	//VENTAS CANCELADAS
+	     //VENTAS CANCELADAS
 
 		var chart = new Highcharts.Chart({
 		  //$('#container').highcharts({
@@ -376,7 +376,7 @@
 			    },
 
 			        exporting: {
-			        url: 'http://export.highcharts.com/',
+			        url: 'https://export.highcharts.com/',
 			        enabled: false
         
                 },
@@ -433,7 +433,7 @@
 
 
 
-	/*****FIN VENTAS CANCELADAS************************************/
+	   /*****FIN VENTAS CANCELADAS************************************/
 
 			//si se le da click al boton entonces se envia la imagen al archivo PDF por ajax
 			$('#buttonExport').click(function() {

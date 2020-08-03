@@ -28,7 +28,7 @@ ob_start();
 
    
 ?>
-
+<meta charset="utf-8">
 <link type="text/css" rel="stylesheet" href="dompdf/css/print_static.css"/>
   <style type="text/css">
 
@@ -46,7 +46,9 @@ ob_start();
 
 <table style="width: 100%;" class="header">
 <tr>
-<td width="54%" height="111"><h1 style="text-align: left; margin-right:20px;"><img src="../public/images/logo_mercado.jpg" width="340" height="200"  /></h1></td>
+<td width="54%" height="111"><h1 style="text-align: left; margin-right:20px;">
+<img src=<?php echo $_SESSION["imagenUser"] ?> width="240" height="200"  />
+</h1></td>
 
 
 <td width="46%" height="111">
@@ -55,26 +57,15 @@ ob_start();
   <tr>
     <td><strong>DATOS DE LA EMPRESA</strong></td>
   </tr>
-
   <tr>
-    <td><strong>CEDULA EMPRESA: </strong> <?php echo $datos_empresa[0]["cedula_empresa"]; ?></td>
+    <td><strong>NOMBRE: </strong><?php echo $_SESSION["nombre"]; ?></td>
   </tr>
   <tr>
-    <td><strong>EMPRESA: </strong> <?php echo $datos_empresa[0]["nombre_empresa"]; ?></td>
-  </tr>
-  
-  <tr>
-    <td width="43%"><strong>DATOS DEL VENDEDOR</strong></td>
-  </tr>
-  <tr>
-    <td><strong>NOMBRE: </strong><?php echo $_SESSION["nombres"]; ?></td>
-  </tr>
-  <tr>
-    <td><strong>RIF/CEDULA: </strong><?php echo $_SESSION["cedula"]; ?></td>
+    <td><strong>RFC: </strong><?php echo $_SESSION["rfc"]; ?></td>
   </tr>
   <tr>
     <td><strong>FECHA-HORA IMPRESO: </strong>
-      <?php echo $fecha=date("d-m-Y h:i:s A"); ?></td>
+      <?php echo $_POST["fechaActual"]; ?></td>
   </tr>
    <tr></tr>
 </table><!--fin segunda tabla-->
@@ -275,7 +266,6 @@ ob_start();
     <td style="text-align: center; padding-top: 0em;">&nbsp;</td>
   </tr>
 </table>
-
 
  </div>
 

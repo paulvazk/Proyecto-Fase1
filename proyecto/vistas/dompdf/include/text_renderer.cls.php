@@ -4,7 +4,7 @@
  * @link    http://www.dompdf.com/
  * @author  Benj Carson <benjcarson@digitaljunkies.ca>
  * @author  Helmut Tischer <htischer@weihenstephan.org>
- * @author  Fabien Ménager <fabien.menager@gmail.com>
+ * @author  Fabien Mï¿½nager <fabien.menager@gmail.com>
  * @license http://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
  * @version $Id: text_renderer.cls.php 471 2012-02-06 21:59:10Z fabien.menager $
  */
@@ -120,7 +120,7 @@ class Text_Renderer extends Abstract_Renderer {
       switch ($text_deco) {
 
       default:
-        continue;
+    break;
 
       case "underline":
         $deco_y += $base - $descent + $size * (self::UNDERLINE_OFFSET - self::DECO_THICKNESS/2);

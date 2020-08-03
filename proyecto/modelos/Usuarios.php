@@ -86,74 +86,84 @@
                   $resultado = json_decode($sql, true);
 
                           //si existe el registro entonces se conecta en session
-                          //and 
+                          //and jacobohernandezmendieta7@gmail.com
+                          
                       if(is_array($resultado) and count($resultado)>0 and !$resultado["error"]){
-
-                         /*IMPORTANTE: la session guarda los valores de los campos de la tabla de la bd*/
+                          if(!$resultado["verifi"]){
+                          header("Location:".Conectar::ruta()."index.php?m=3");
+                          exit();
+                          }else{
+                            /*IMPORTANTE: la session guarda los valores de los campos de la tabla de la bd*/
                        $_SESSION["id_usuario"] = $resultado["id_usuario"];
                        $_SESSION["correo"] = $resultado["email"];
                        $_SESSION["cedula"] = $resultado["nombres"];
                        $_SESSION["nombre"] = $resultado["nombres"];
+                       $_SESSION["rfc"] = $resultado["rfc"];
+                       $_SESSION["token"] = $resultado["tok"];
+                         //PERMISOS DEL USUARIO PARA ACCEDER A LOS MODULOS
 
-                  
-            //PERMISOS DEL USUARIO PARA ACCEDER A LOS MODULOS
-
-            require_once("Usuarios.php");
+                        require_once("Usuarios.php");
  
-            $usuario = new Usuarios();
+                        $usuario = new Usuarios();
         
-           //VERIFICAMOS SI EL USUARIO TIENE PERMISOS A CIERTOS MODULOS
-           $marcados = $usuario->listar_permisos_por_usuario($resultado["id_usuario"]);
-
-          //declaramos el array para almacenar todos los registros marcados
-
-           $valores=array();
-
-           //Almacenamos los permisos marcados en el array
-
-           foreach($marcados as $row){
+                        //VERIFICAMOS SI EL USUARIO TIENE PERMISOS A CIERTOS MODULOS
+                        /*$marcados = $usuario->listar_permisos_por_usuario($resultado["id_usuario"]);
+                        $valores=array();
+                       foreach($marcados as $row){
  
-              $valores[]= $row["id_permiso"];
-           }
+                       $valores[]= $row["id_permiso"];
+                      }*/
 
 
-           ////Determinamos los accesos del usuario
-           //si los id_permiso estan en el array $valores entonces se ejecuta la session=1, en caso contrario el usuario no tendria acceso al modulo
-           /*
-           in_array(1,$valores)?$_SESSION['categoria']=1:$_SESSION['categoria']=0;
-           //in_array(2,$valores)?$_SESSION['presentacion']=1:$_SESSION['presentacion']=0;
-           in_array(2,$valores)?$_SESSION['productos']=1:$_SESSION['productos']=0;
-           in_array(3,$valores)?$_SESSION['proveedores']=1:$_SESSION['proveedores']=0;
-           in_array(4,$valores)?$_SESSION['compras']=1:$_SESSION['compras']=0;
-           in_array(5,$valores)?$_SESSION['clientes']=1:$_SESSION['clientes']=0;
-           in_array(6,$valores)?$_SESSION['ventas']=1:$_SESSION['ventas']=0;
-           in_array(7,$valores)?$_SESSION['reporte_compras']=1:$_SESSION['reporte_compras']=0;
-           in_array(8,$valores)?$_SESSION['reporte_ventas']=1:$_SESSION['reporte_ventas']=0;
-           in_array(9,$valores)?$_SESSION['usuarios']=1:$_SESSION['usuarios']=0;
-           //in_array(10,$valores)?$_SESSION['backup']=1:$_SESSION['backup']=0;
-           in_array(10,$valores)?$_SESSION['empresa']=1:$_SESSION['empresa']=0;*/
-
-          $_SESSION['categoria']=1;
-          $_SESSION['productos']=1;
-          $_SESSION['proveedores']=1;
-          $_SESSION['compras']=1;
-          $_SESSION['clientes']=1;
-          $_SESSION['ventas']=1;
-          $_SESSION['reporte_compras']=1;
-          $_SESSION['reporte_ventas']=1;
-          $_SESSION['usuarios']=1;
-          $_SESSION['empresa']=1;
-          
-
-           //FIN PERMISOS DEL USUARIO   
-
-
-
+                        ////Determinamos los accesos del usuario
+                        //si los id_permiso estan en el array $valores entonces se ejecuta la session=1, en caso contrario el usuario no tendria acceso al modulo
+                        /*
+                        in_array(1,$valores)?$_SESSION['categoria']=1:$_SESSION['categoria']=0;
+                        //in_array(2,$valores)?$_SESSION['presentacion']=1:$_SESSION['presentacion']=0;
+                        in_array(2,$valores)?$_SESSION['productos']=1:$_SESSION['productos']=0;
+                        in_array(3,$valores)?$_SESSION['proveedores']=1:$_SESSION['proveedores']=0;
+                        in_array(4,$valores)?$_SESSION['compras']=1:$_SESSION['compras']=0;
+                        in_array(5,$valores)?$_SESSION['clientes']=1:$_SESSION['clientes']=0;
+                        in_array(6,$valores)?$_SESSION['ventas']=1:$_SESSION['ventas']=0;
+                        in_array(7,$valores)?$_SESSION['reporte_compras']=1:$_SESSION['reporte_compras']=0;
+                        in_array(8,$valores)?$_SESSION['reporte_ventas']=1:$_SESSION['reporte_ventas']=0;
+                        in_array(9,$valores)?$_SESSION['usuarios']=1:$_SESSION['usuarios']=0;
+                        //in_array(10,$valores)?$_SESSION['backup']=1:$_SESSION['backup']=0;
+                        in_array(10,$valores)?$_SESSION['empresa']=1:$_SESSION['empresa']=0;*/
+                        $tokEnv = $resultado["tok"];
+                       $imagenUser = curl_init();
+                       curl_setopt_array($imagenUser, array(
+                         CURLOPT_URL => "http://localhost:3001/api/getimage/compraventa",
+                         CURLOPT_RETURNTRANSFER => true,
+                         CURLOPT_ENCODING => "",
+                         CURLOPT_MAXREDIRS => 10,
+                         CURLOPT_TIMEOUT => 0,
+                         CURLOPT_FOLLOWLOCATION => true,
+                         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                         CURLOPT_CUSTOMREQUEST => "GET",
+                         CURLOPT_HTTPHEADER => array(
+                           "Authorization: BEARER $tokEnv"
+                         ),
+                       ));
+                       
+                       $response = curl_exec($imagenUser);
+                       curl_close($imagenUser);
+                       $res= json_decode($response, true);
+                        $_SESSION["imagenUser"]=$res["imagen"];
+                        $_SESSION['categoria']=1;
+                        $_SESSION['productos']=1;
+                        $_SESSION['proveedores']=1;
+                        $_SESSION['compras']=1;
+                        $_SESSION['clientes']=1;
+                        $_SESSION['ventas']=1;
+                        $_SESSION['reporte_compras']=1;
+                        $_SESSION['reporte_ventas']=1;
+                        $_SESSION['usuarios']=1;
+                        $_SESSION['empresa']=1;
                         header("Location:".Conectar::ruta()."vistas/home.php");
 
                          exit();
-
-
+                         }
                       } else {
                           
                           //si no existe el registro entonces le aparece un mensaje

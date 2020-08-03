@@ -283,7 +283,6 @@
                        moneda=?,
                        precio_compra=?,
                        precio_venta=?,
-                       stock=?,
                        estado=?,
                        imagen=?,
                        fecha_vencimiento=?,
@@ -301,12 +300,11 @@
                 $sql->bindValue(5, $_POST["moneda"]);
                 $sql->bindValue(6, $_POST["precio_compra"]);
                 $sql->bindValue(7, $_POST["precio_venta"]);
-                $sql->bindValue(8, $stocker);
-                $sql->bindValue(9, $_POST["estado"]);
-                $sql->bindValue(10, $imagen);
-                $sql->bindValue(11, $fecha);
-                $sql->bindValue(12, $_SESSION["id_usuario"]);
-                $sql->bindValue(13, $_POST["id_producto"]);
+                $sql->bindValue(8, $_POST["estado"]);
+                $sql->bindValue(9, $imagen);
+                $sql->bindValue(10, $fecha);
+                $sql->bindValue(11, $_SESSION["id_usuario"]);
+                $sql->bindValue(12, $_POST["id_producto"]);
                 $sql->execute();
 
 
@@ -320,7 +318,6 @@
                      unidad=?,
                      precio_compra=?,
                      precio_venta=?,
-                     stock=?,
                      estado=?,
                      imagen=?,
                      fecha_vencimiento=?,
@@ -335,12 +332,11 @@
                       $sql->bindValue(2, $_POST["unidad"]);
                       $sql->bindValue(3, $_POST["precio_compra"]);
                       $sql->bindValue(4, $_POST["precio_venta"]);
-                      $sql->bindValue(5, $stocker);
-                      $sql->bindValue(6, $_POST["estado"]);
-                      $sql->bindValue(7, $imagen);
-                      $sql->bindValue(8, $fecha);
-                      $sql->bindValue(9, $_SESSION["id_usuario"]);
-                      $sql->bindValue(10, $_POST["id_producto"]);
+                      $sql->bindValue(5, $_POST["estado"]);
+                      $sql->bindValue(6, $imagen);
+                      $sql->bindValue(7, $fecha);
+                      $sql->bindValue(8, $_SESSION["id_usuario"]);
+                      $sql->bindValue(9, $_POST["id_producto"]);
                       $sql->execute();
 
 

@@ -28,9 +28,8 @@
 
          switch($_GET["op"]){
 
-              case "guardaryeditar":
-
-           	   /*si el id no existe entonces lo registra
+			  case "guardaryeditar":
+           	   /*si el id n;o existe entonces lo registra
 	           importante: se debe poner el $_POST sino no funciona*/
 	          if(empty($_POST["id_producto"])){
 

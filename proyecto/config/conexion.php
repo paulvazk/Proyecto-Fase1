@@ -14,7 +14,10 @@
 
 
  		 try {
- 			$conectar = $this->dbh = new PDO("mysql:local=localhost;dbname=dbproyecto","root","");
+			  $databse = getenv('DBNAME');
+			  $userdb=getenv('USERDB');
+			  $passwordSql=getenv('PASSWORD');
+ 			$conectar = $this->dbh = new PDO("mysql:local=localhost;dbname=$databse","root","");
 		   
 		     return $conectar;
  			
@@ -37,7 +40,7 @@
 
 
 		 public function ruta(){
-
+			 $routerInit = getenv('RUTAINIT');
 		 	return "http://localhost:9090/Proyecto-Fase1/proyecto/";
 		 }
 
