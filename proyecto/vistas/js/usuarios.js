@@ -123,12 +123,16 @@ var tabla;
                //texto que se va a mostrar
                $(".modal-title").text("Editar Usuarios");
                $("#id_usuario").val(data.id_usuario);
-               
+
                $("#action").val("Edit");                              
                
           });
      }
-
+     //La funcion guardaryeditar(e); se llama cuando se da click al boton  
+     function guardaryeditar(e) {
+          //Evitamos la accion determinada del eventos
+          
+     }
 
 
      //Llamando a la funcion
