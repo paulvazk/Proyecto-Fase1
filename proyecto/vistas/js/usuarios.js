@@ -32,7 +32,7 @@ var tabla;
                     'excelHtml5',
                     'csvHtml5',
                     'pdf'
-               ]
+               ]//botones para exportar en formatos 
           }).DataTable();
      }
      //Llamando a la funcion
