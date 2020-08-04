@@ -103,8 +103,30 @@ var tabla;
      }
 
      //Mostrando datos del usuario en la ventana modal del formulario
-     function mostrar(params) {
-          
+     function mostrar(id_usuario) {
+          $.post("../ajax/usuario.php?op=mostrar", {id_usuario : id_usuario}, function (data, status) {
+             data = JSON.parse(data);
+               //Mostar modal
+               $("#usuarioModal").modal("show");  
+               //Valor de la cedula y los demas campos, los retorna en JSON 511 2030
+               $("#cedula").val(data.cedula);
+               $("#nombre").val(data.nombre);
+               $("#apellido").val(data.apellido);
+               $("#cargo").val(data.cargo);
+               $("#usuario").val(data.usuario);
+               $("#password1").val(data.password1);
+               $("#password2").val(data.password2);
+               $("#telefono").val(data.telefono);
+               $("#email").val(data.email);
+               $("#direccion").val(data.direccion);
+               $("#estado").val(data.estado);
+               //texto que se va a mostrar
+               $(".modal-title").text("Editar Usuarios");
+               $("#id_usuario").val(data.id_usuario);
+               
+               $("#action").val("Edit");                              
+               
+          });
      }
 
 
