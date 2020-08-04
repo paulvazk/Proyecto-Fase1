@@ -49,38 +49,55 @@ var tabla;
                "bInfo": true,
                "iDisplayLength": 10,//Por cada 10 registros se hace la paginacion
                "order":[[0, "desc"]],//Se ordena por (columna, orden) 
-               //Agregando la traaduccion
-               "language":{
-                    "sProcessing" : "Procesando...",
-                    "sLengthMenu" : "Mostrar _MENU_ resgitros",
-                    "sZeroRecords" : "",
-                    "sEmpty" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
-                    "" : "",
+          
+          //Agregando la traduccion     
+	     "language": {
+ 
+                    "sProcessing":     "Procesando...",
+                         
+                    "sLengthMenu":     "Mostrar _MENU_ registros",
+                         
+                    "sZeroRecords":    "No se encontraron resultados",
+                         
+                    "sEmptyTable":     "Ningún dato disponible en esta tabla",
+                    
+                    "sInfo":           "Mostrando un total de _TOTAL_ registros",
+                         
+                    "sInfoEmpty":      "Mostrando un total de 0 registros",
+                         
+                    "sInfoFiltered":   "(filtrado de un total de _MAX_ registros)",
+                         
+                    "sInfoPostFix":    "",
+                         
+                    "sSearch":         "Buscar:",
+                         
+                    "sUrl":            "",
+                         
+                    "sInfoThousands":  ",",
+                         
+                    "sLoadingRecords": "Cargando...",
+			 
+		          "oPaginate": {
+			 
+		               "sFirst":    "Primero",
+		 
+                         "sLast":     "Último",
+                    
+                         "sNext":     "Siguiente",
+                    
+                         "sPrevious": "Anterior"
+			 
+	          	    },
+			 
+		          "oAria": {
+			 
+                         "sSortAscending":  ": Ordenar de manera ascendente",
+                         
+                         "sSortDescending": ": Ordenar de manera descendente"
+                         
+                         }
+		   }//cerrando traduccion del language
 
-                    "" : "",
-                    "" : "",
-
-               }    
           }).DataTable();
      }
      //Llamando a la funcion
