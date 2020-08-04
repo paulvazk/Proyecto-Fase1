@@ -21,5 +21,19 @@ var tabla;
           $("#estado").val("");
           $("#id_usuario").val("");
      }
+     //Funcion para listar
+     function listar() {
+          tabla = $('#usuario_data').dataTable({
+               "aProcesing": true,//Se activa el procesamiento del datatables
+               "aServerSide": true,//Paginacion y filtracion realizados por el servidor
+               dom: "Bfrtip",//Definimos los elementos del control de tabla
+               buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdf'
+               ]
+          }).DataTable();
+     }
      //Llamando a la funcion
      init();
