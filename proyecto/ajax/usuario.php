@@ -169,6 +169,88 @@
 
           case "listar":
                //Iniciando funcion listar
+               $datos = $usuarios -> get_usuarios();
+
+               //declarando el array
+               $data = Array();
+
+               //Verificando ESTADO
+               $est = '';
+               //Variable de atributo  con clases de boodestrap :V
+               $atrib = "btn btn-success btn-md estado";
+               if ($row["estado"] == 0) {
+                    # code...
+                    $est = 'INACTIVO';
+                    $atrib = 'btn btn-warning btn-md estado';
+
+               } else {
+                    # code...
+                    if ($row["estado"] == 1) {
+                         # code...
+                         $est = 'ACTIVO';
+                    }
+               }
+               //Recorremos los campos de manera independiente
+               foreach($datos as $row) { 
+                    //aqui se va agregar en el array
+                    $sub_array = array();
+                    //Validacion del cargo
+                    if ($row["cargo"] == 1) {
+                         # code...
+                         $cargo = "ADMINISTRADOR";
+
+                    }
+                    else {
+                         if ($row["cargo"] == 0) {
+                              # code...
+                              $cargo = "EMPLEADO";
+                         }
+                    }
+                    //Campos de la tabla usuarios
+                    $sub_array[] = $row["cedula"];
+                    $sub_array[] = $row["nombres"];
+                    $sub_array[] = $row["apellidos"];
+                    $sub_array[] = $row["usuario"];
+                    $sub_array[] = $cargo;
+                    $sub_array[] = $row["telefono"];
+                    $sub_array[] = $row["correo"];
+                    $sub_array[] = $row["direccion"];
+                    $sub_array[] = date("d-m-y",strtotime($row["fecha_ingreso"]));//ordenar por fechas
+
+                    //Creando boton de cambio de estado con un evento onclick asi mismo concatena el id y el estado
+                    $sub_array[] = '
+                    <button type = "button" onClick = "cambiarEstado('.$row["id_usuario"].','.$row["estado"].');" name = "estado" id = "'.$row["id_usuario"].'" class = "'.$atrib.'">'
+                    .$est.
+                    '</button>';
+
+                    //Creando boton de editar
+                    $sub_array[] = '
+                    <button type = "button" onClick = "mostrar('.$row["id_usuario"].');"  id = "'.$row["id_usuario"].'" class = "btn btn-warning btn-md update">
+                    <i class="glyphicon glyphicon-edit"></i>
+                         Editar
+                    </button>';
+
+                    //Creando Boton de eliminar
+                    $sub_array[] = '
+                    <button type = "button" onClick = "eliminar('.$row["id_usuario"].');"  id = "'.$row["id_usuario"].'" class = "btn btn-danger btn-md">
+                    <i class="glyphicon glyphicon-edit"></i>
+                         Eliminar
+                    </button>';
+
+                    $data[] = $sub_array;
+
+               }
+               //Declarar otro array
+               $results = array(
+
+                    "sEcho" => 1,//Informacion para el datatable importante para tabular y paginar
+                    "iTotalRecords" => count($data), //Se envia el total de registros al datatable
+                    "iTotalDisplayRecords" => count($data),//Se envia el total de regisros que se van a visualizar
+                    "aaData" => $data
+               );
+               //Impriminedo JSON
+               echo json_encode($results);
+
                
           break;          
      }
