@@ -144,7 +144,13 @@ var tabla;
                          data: formData,
                          contentType: false,
                          processData: false,
-                         
+                         success: function (datos) {
+                              $('#usuario_form')[0].reset();//limpiar campo
+                              $('#usuarioModal').modal('hide');//cerrar modal
+                              $('#resultados_ajax').html(datos);//muestra mensaje de texto
+                              $('#usuario_data').DataTable().ajax.reload();
+                              limpiar();
+                         }
                     });
                     
                } else {
