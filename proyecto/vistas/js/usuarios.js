@@ -99,6 +99,15 @@ var tabla;
 		   }//cerrando traduccion del language
 
           }).DataTable();
+
      }
+
+     //Mostrando datos del usuario en la ventana modal del formulario
+     function mostrar(params) {
+          
+     }
+
+
+
      //Llamando a la funcion
      init();
