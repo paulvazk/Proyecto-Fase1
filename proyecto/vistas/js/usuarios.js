@@ -131,7 +131,12 @@ var tabla;
      //La funcion guardaryeditar(e); se llama cuando se da click al boton  
      function guardaryeditar(e) {
           //Evitamos la accion determinada del eventos
-          
+          e.preventDefault();
+          //variable del formulario que guardara todo xd
+          var formData = new FormData($("#usuario_form")[0]);
+          //creando validacion de los password
+          var password1 = $("#password1").val();
+          var password2 = $("#password2").val();
      }
 
 
