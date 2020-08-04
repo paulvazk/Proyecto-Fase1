@@ -48,5 +48,7 @@
 <script src="../public/dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../public/dist/js/demo.js"></script>
+<!-- Libreria Externa para crear modales aqui se debe de optimizar dado que ya hay modales en esta plantilla-->
+<script src="./js/bootbox.min.js"></script>
 </body>
 </html>

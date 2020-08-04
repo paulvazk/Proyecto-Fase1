@@ -137,6 +137,11 @@ var tabla;
           //creando validacion de los password
           var password1 = $("#password1").val();
           var password2 = $("#password2").val();
+               if (password1 == password2) {
+                    
+               } else {
+                   alert("Verifique que sus passwords sean iguales"); 
+               }
      }
 
 
