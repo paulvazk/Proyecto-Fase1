@@ -134,13 +134,22 @@ var tabla;
           e.preventDefault();
           //variable del formulario que guardara todo xd
           var formData = new FormData($("#usuario_form")[0]);
-          //creando validacion de los password
+          //creando validacion de los password si coinciden se envia el formulario
           var password1 = $("#password1").val();
           var password2 = $("#password2").val();
                if (password1 == password2) {
+                    $.ajax({
+                         url: "../ajax/usuario.php?op=guardaryeditar",
+                         type: "POST",
+                         data: formData,
+                         contentType: false,
+                         processData: false,
+                         
+                    });
                     
                } else {
-                   alert("Verifique que sus passwords sean iguales"); 
+                    //
+                   bootbox.alert("Verifique que sus passwords sean iguales"); 
                }
      }
 
