@@ -158,7 +158,10 @@ var tabla;
                    bootbox.alert("Verifique que sus passwords sean iguales"); 
                }
      }
-
+     //Funcion cambiar  estado del usuario
+     function cambiarEstado() {
+          
+     }
 
      //Llamando a la funcion
      init();
