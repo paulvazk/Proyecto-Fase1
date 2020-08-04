@@ -32,7 +32,55 @@ var tabla;
                     'excelHtml5',
                     'csvHtml5',
                     'pdf'
-               ]//botones para exportar en formatos 
+               ],//botones para exportar en formatos 
+               "ajax"://Parametros Ajax
+                    {
+                         url:'../ajax/usuarios.php?op=listar',
+                         type : "get",
+                         dataType: "json",
+                         error: function (e) {
+                              console.log('====================================');
+                              console.log(e.responseText);
+                              console.log('====================================');
+                         }
+                    },
+               "bDestroy": true,
+               "responsive": true,//Tabla responsive
+               "bInfo": true,
+               "iDisplayLength": 10,//Por cada 10 registros se hace la paginacion
+               "order":[[0, "desc"]],//Se ordena por (columna, orden) 
+               //Agregando la traaduccion
+               "language":{
+                    "sProcessing" : "Procesando...",
+                    "sLengthMenu" : "Mostrar _MENU_ resgitros",
+                    "sZeroRecords" : "",
+                    "sEmpty" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+                    "" : "",
+
+                    "" : "",
+                    "" : "",
+
+               }    
           }).DataTable();
      }
      //Llamando a la funcion
