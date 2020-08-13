@@ -5,6 +5,12 @@ var tabla;
      //Primera Funcion que se ejecuta
      function init() {
           //Va a servir de referancia para llamar a los demas
+          //Se llama primero a la funcion listar
+          listar();
+          //Cuando se de clikc en el boton submit se ejecutara la funcion guardaryeditar
+          $("#usuario_form").on("submit",function (e) {
+               guardaryeditar(e);
+          })
      }
      //Funcion que limpia los campos del formulario 
      function limpiar() {
@@ -158,9 +164,28 @@ var tabla;
                    bootbox.alert("Verifique que sus passwords sean iguales"); 
                }
      }
-     //Funcion cambiar  estado del usuario
-     function cambiarEstado() {
-          
+     /***
+      * Funcion cambiar  estado del usuario
+      * IMPORTANTE: id_usuario , post se envian por via AJAX
+      */
+     function cambiarEstado(id_usuario, est) {
+          //creando validacion
+          bootbox.confirm("Esta seguro de cambiar el estado?", function (result) {
+               if (result) {
+                    //parametro AJAX
+                    $.ajax({
+                         url:"../ajax/usuario.php?op=activarydesactivar",
+                         method: "POST",
+                         //Se toma el valor del ID y del ESTADO
+                         data:{id_usuario:id_usuario, est:est},
+                         success: function (data) {
+                              $('#usuario_data').DataTable().ajax.reload();
+                         }
+                    });
+               } else {
+                    
+               }
+          });//fin del mensaje modal
      }
 
      //Llamando a la funcion
